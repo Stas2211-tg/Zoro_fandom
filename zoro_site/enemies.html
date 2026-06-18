@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Противники Зоро — Все враги</title>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .enemies-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .enemy-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 20px;
+            transition: 0.3s;
+            text-align: center;
+        }
+
+        .enemy-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--purple);
+            box-shadow: 0 8px 30px rgba(123, 47, 190, 0.15);
+        }
+
+        .enemy-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+            margin-bottom: 12px;
+        }
+
+        .enemy-card h4 {
+            font-family: 'Russo One', sans-serif;
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .enemy-card .result {
+            font-weight: 700;
+            font-size: 14px;
+        }
+
+        .result.win { color: var(--green); }
+        .result.lose { color: #c0392b; }
+        .result.draw { color: var(--gold); }
+    </style>
+</head>
+<body>
+
+    <!-- ===== ШАПКА ===== -->
+    <header class="header">
+        <div class="container header-inner">
+            <div class="logo">
+                <img src="img/zoro-skull.png" alt="Герб Зоро" class="logo-skull">
+                <span>Z<span class="green">O</span>RO</span>
+            </div>
+            <nav class="nav">
+                <a href="index.html">Главная</a>
+                <a href="bio.html">Биография</a>
+                <a href="swords.html">Мечи</a>
+                <a href="map.html">Карта</a>
+                <a href="fan.html">Фан-зона</a>
+                <a href="robin-zoro.html">Робин & Зоро</a>
+                <a href="awards.html">Награды</a>
+                <a href="enemies.html">Враги</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- ===== ПРОТИВНИКИ ===== -->
+    <section class="enemies">
+        <div class="container">
+            <h2>⚔️ Все противники <span class="gold">Зоро</span></h2>
+            <p class="section-subtitle">От первых врагов до легендарных императоров</p>
+
+            <div class="enemies-grid">
+                <!-- С картинками -->
+                <div class="enemy-card">
+                    <!-- ================================================= -->
+                    <!-- КАРТИНКА: Михоук (img/mihawk.png)                 -->
+                    <!-- ================================================= -->
+                    <img src="img/mihawk.png" alt="Михоук">
+                    <h4>Дракул Михоук</h4>
+                    <p>Величайший фехтовальщик</p>
+                    <p class="result lose">Поражение</p>
+                    <p style="font-size: 14px; color: #8a9a8a;">Первая встреча у Баратье</p>
+                </div>
+
+                <div class="enemy-card">
+                    <!-- ================================================= -->
+                    <!-- КАРТИНКА: Кайдо (img/kaido.png)                   -->
+                    <!-- ================================================= -->
+                    <img src="img/kaido.png" alt="Кайдо">
+                    <h4>Кайдо</h4>
+                    <p>Император, сильнейший зверь</p>
+                    <p class="result draw">Ранил</p>
+                    <p style="font-size: 14px; color: #8a9a8a;">Битва на крыше в Вано</p>
+                </div>
+
+                <div class="enemy-card">
+                    <!-- ================================================= -->
+                    <!-- КАРТИНКА: Кинг (img/king-enemy.png)               -->
+                    <!-- ================================================= -->
+                    <img src="img/king-enemy.png" alt="Кинг">
+                    <h4>Кинг</h4>
+                    <p>Правая рука Кайдо</p>
+                    <p class="result win">Победа</p>
+                    <p style="font-size: 14px; color: #8a9a8a;">Эпическая битва в Вано</p>
+                </div>
+
+                <!-- Без картинок (текстовые) -->
+                <div class="enemy-card">
+                    <div class="enemy-placeholder" style="font-size: 40px; margin-bottom: 10px;">⚔️</div>
+                    <h4>Мистер 1 (Даз Бонес)</h4>
+                    <p>Агент Барок Воркс</p>
+                    <p class="result win">Победа</p>
+                    <p style="font-size: 14px; color: #8a9a8a;">Алабаста — первый серьёзный бой</p>
+                </div>
+
+                <div class="enemy-card">
+                    <div class="enemy-placeholder" style="font-size: 40px; margin-bottom: 10px;">🐺</div>
+                    <h4>Каку</h4>
+                    <p>CP9, жираф</p>
+                    <p class="result win">Победа</p>
+                    <p style="font-size: 14px; color: #8a9a8a;">Эниес Лобби — первая Асура</p>
+                </div>
+
+                <div class="enemy-card">
+                    <div class="enemy-placeholder" style="font-size: 40px; margin-bottom: 10px;">💀</div>
+                    <h4>Рюма</h4>
+                    <p>Легендарный самурай (зомби)</p>
+                    <p class="result win">Победа</p>
+                    <p style="font-size: 14px; color: #8a9a8a;">Триллер Барк</p>
+                </div>
+
+                <div class="enemy-card">
+                    <div class="enemy-placeholder" style="font-size: 40px; margin-bottom: 10px;">❄️</div>
+                    <h4>Моне</h4>
+                    <p>Подчинённая Цезаря</p>
+                    <p class="result win">Победа</p>
+                    <p style="font-size: 14px; color: #8a9a8a;">Панк Хазард</p>
+                </div>
+
+                <div class="enemy-card">
+                    <div class="enemy-placeholder" style="font-size: 40px; margin-bottom: 10px;">🔱</div>
+                    <h4>Хачи</h4>
+                    <p>Рыбо-человек-осьминог</p>
+                    <p class="result win">Победа</p>
+                    <p style="font-size: 14px; color: #8a9a8a;">Арлонг-парк</p>
+                </div>
+
+                <div class="enemy-card">
+                    <div class="enemy-placeholder" style="font-size: 40px; margin-bottom: 10px;">🦅</div>
+                    <h4>Капитан Морган</h4>
+                    <p>Морской пехотинец</p>
+                    <p class="result win">Победа</p>
+                    <p style="font-size: 14px; color: #8a9a8a;">Шеллс-Таун</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ПОДВАЛ ===== -->
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-logo">
+                <img src="img/zoro-skull.png" alt="Герб Зоро" class="footer-skull">
+                <span>Z<span class="green">O</span>RO</span>
+            </div>
+            <div class="footer-links">
+                <a href="https://onepiecedl.com/" target="_blank" class="footer-btn">Смотреть аниме</a>
+                <a href="https://onepiece.fandom.com/ru/wiki/%D0%A0%D0%BE%D1%80%D0%BE%D0%BD%D0%BE%D0%B0_%D0%97%D0%BE%D1%80%D0%BE" target="_blank" class="footer-btn">Вики Зоро</a>
+            </div>
+            <div class="footer-copy">
+                <p>Создано фанатом для фанатов. Вся информация проверена по манге и SBS.</p>
+                <p>© 2026 — Roronoa Zoro Fan Site</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
