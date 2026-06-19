@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фан-зона Зоро</title>
+    <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .poll-section { background: var(--card-bg); padding: 30px; border-radius: 16px; border: 1px solid var(--border); margin: 40px 0; }
+        .poll-options { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin: 20px 0; }
+        .poll-options label { display: block; padding: 12px; background: var(--bg); border-radius: 10px; border: 2px solid var(--border); cursor: pointer; text-align: center; }
+        .poll-options label:hover { border-color: var(--green); }
+        .poll-btn { background: var(--green); color: #fff; border: none; padding: 12px 40px; border-radius: 50px; font-weight: 700; font-size: 16px; cursor: pointer; }
+        .poll-btn:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(26, 138, 58, 0.4); }
+        #poll-results { margin-top: 25px; padding: 20px; background: var(--bg); border-radius: 12px; }
+        .meme-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 25px; margin: 30px 0; }
+        .meme-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 20px; text-align: center; transition: 0.3s; }
+        .meme-card:hover { transform: translateY(-8px); border-color: var(--purple); }
+        .meme-card img { max-width: 100%; border-radius: 10px; }
+        .ship-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin: 20px 0; }
+        .ship-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; transition: 0.3s; }
+        .ship-card:hover { border-color: var(--gold); }
+        .theory-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; margin: 20px 0; }
+        .theory-card { background: var(--card-bg); border-left: 4px solid var(--purple); padding: 20px; border-radius: 8px; }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <div class="container header-inner">
+            <div class="logo">
+                <img src="zoro-skull.png" alt="Герб Зоро" class="logo-skull">
+                <span>Z<span class="green">O</span>RO</span>
+            </div>
+            <nav class="nav">
+                <a href="index.html">Главная</a>
+                <a href="bio.html">Биография</a>
+                <a href="swords.html">Мечи</a>
+                <a href="map.html">Карта</a>
+                <a href="fan.html">Фан-зона</a>
+                <a href="robin-zoro.html">Робин & Зоро</a>
+                <a href="awards.html">Награды</a>
+                <a href="enemies.html">Враги</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="fan-zone">
+        <div class="container">
+            <h2>🎮 Фан-зона <span class="gold">Зоро</span></h2>
+            <p class="section-subtitle">Шиперинг, теории, мемы и всё для фанатов</p>
+
+            <h3 style="margin-top: 40px;">💞 Шиперинг — кто подходит Зоро?</h3>
+            <div class="ship-grid">
+                <div class="ship-card"><h4>Ташиги</h4><p>Две половинки одной души? От вражды до уважения.</p></div>
+                <div class="ship-card"><h4>Хёри</h4><p>Тёплые моменты в Вано. Ода намекнул на их связь.</p></div>
+                <div class="ship-card"><h4>Робин</h4><p>Главный шип аниме. Духовная близость и взаимопонимание.</p></div>
+                <div class="ship-card"><h4>Нами</h4><p>Токсичные, но забавные отношения. Нами бьёт его, но он спасает её.</p></div>
+            </div>
+
+            <div class="poll-section">
+                <h3>👩 Лучшая девушка для Зоро</h3>
+                <p>Проголосуй за свой любимый шип!</p>
+                <form id="zoro-poll">
+                    <div class="poll-options">
+                        <label><input type="radio" name="girl" value="tashigi"> Ташиги</label>
+                        <label><input type="radio" name="girl" value="hyori"> Хёри</label>
+                        <label><input type="radio" name="girl" value="robin"> Робин</label>
+                        <label><input type="radio" name="girl" value="nami"> Нами</label>
+                        <label><input type="radio" name="girl" value="kuina"> Куина</label>
+                        <label><input type="radio" name="girl" value="other"> Другая</label>
+                    </div>
+                    <button type="submit" class="poll-btn">Голосовать</button>
+                </form>
+                <div id="poll-results"></div>
+            </div>
+
+            <h3>🧠 Теории о Зоро</h3>
+            <div class="theory-grid">
+                <div class="theory-card"><h4>Зоро — потомок Рюмы</h4><p>Подтверждено в манге. Связь с легендарным самураем.</p></div>
+                <div class="theory-card"><h4>Энма разбудит его силу</h4><p>Зоро станет сильнее, чем когда-либо.</p></div>
+                <div class="theory-card"><h4>Зоро умрёт в финале?</h4><p>Тёмная теория, основанная на пророчествах.</p></div>
+            </div>
+
+            <h3>😂 Мемы про навигацию Зоро</h3>
+            <div class="meme-grid">
+                <div class="meme-card"><img src="lost.jpg" alt="Зоро потерялся"><p>"Я точно знаю, где мы находимся... кажется..."</p></div>
+                <div class="meme-card"><div class="meme-placeholder"><p>😵 Зоро и карта</p><p style="font-size: 14px; color: #8a9a8a;">"Навигация — моя слабость"</p></div></div>
+                <div class="meme-card"><div class="meme-placeholder"><p>🗺️ Зоро vs Компас</p><p style="font-size: 14px; color: #8a9a8a;">"Я никогда не теряюсь. Я просто нахожу новые пути"</p></div></div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-content">
+            <div class="footer-logo">
+                <img src="zoro-skull.png" alt="Герб Зоро" class="footer-skull">
+                <span>Z<span class="green">O</span>RO</span>
+            </div>
+            <div class="footer-links">
+                <a href="https://onepiecedl.com/" target="_blank" class="footer-btn">Смотреть аниме</a>
+                <a href="https://onepiece.fandom.com/ru/wiki/%D0%A0%D0%BE%D1%80%D0%BE%D0%BD%D0%BE%D0%B0_%D0%97%D0%BE%D1%80%D0%BE" target="_blank" class="footer-btn">Вики Зоро</a>
+            </div>
+            <div class="footer-copy">
+                <p>Создано фанатом для фанатов. Вся информация проверена по манге и SBS.</p>
+                <p>© 2026 — Roronoa Zoro Fan Site</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
