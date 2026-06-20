@@ -1,18 +1,68 @@
 // =========================================================
-// 1. АНИМАЦИЯ СЧЁТЧИКОВ (при скролле до них)
+// 1. АНИМАЦИЯ: ЛЕТАЮЩИЕ ЛИСТЬЯ САКУРЫ
+// =========================================================
+document.addEventListener('DOMContentLoaded', () => {
+    const sakuraContainer = document.createElement('div');
+    sakuraContainer.className = 'sakura-container';
+    document.body.appendChild(sakuraContainer);
+
+    for (let i = 0; i < 30; i++) {
+        const leaf = document.createElement('div');
+        leaf.className = 'sakura-leaf';
+        leaf.style.left = Math.random() * 100 + '%';
+        leaf.style.animationDuration = (Math.random() * 8 + 8) + 's';
+        leaf.style.animationDelay = (Math.random() * 10) + 's';
+        leaf.style.width = (Math.random() * 15 + 10) + 'px';
+        leaf.style.height = (Math.random() * 15 + 10) + 'px';
+        leaf.style.opacity = Math.random() * 0.5 + 0.3;
+        sakuraContainer.appendChild(leaf);
+    }
+});
+
+// =========================================================
+// 2. АНИМАЦИЯ: ЭФФЕКТ РАЗРЕЗА ПРИ ЗАГРУЗКЕ
+// =========================================================
+document.addEventListener('DOMContentLoaded', () => {
+    const slash = document.createElement('div');
+    slash.className = 'slash-overlay';
+    document.body.appendChild(slash);
+
+    setTimeout(() => {
+        slash.classList.add('active');
+        setTimeout(() => {
+            slash.classList.remove('active');
+        }, 1000);
+    }, 300);
+
+    // Разрез по клику на логотип
+    const logo = document.querySelector('.logo');
+    if (logo) {
+        logo.addEventListener('click', () => {
+            slash.classList.remove('active');
+            setTimeout(() => {
+                slash.classList.add('active');
+                setTimeout(() => {
+                    slash.classList.remove('active');
+                }, 1000);
+            }, 50);
+        });
+    }
+});
+
+// =========================================================
+// 3. АНИМАЦИЯ СЧЁТЧИКОВ
 // =========================================================
 document.addEventListener('DOMContentLoaded', () => {
     const counters = document.querySelectorAll('.counter-number');
-    
-    // Функция запуска счетчиков
+
     function startCounters() {
         counters.forEach(counter => {
             const target = parseInt(counter.getAttribute('data-target'));
-            const duration = 2000; // 2 секунды
-            const stepTime = 20; // обновление каждые 20мс
+            const duration = 2500;
+            const stepTime = 20;
             const steps = duration / stepTime;
             const increment = target / steps;
-            
+
             let current = 0;
             const timer = setInterval(() => {
                 current += increment;
@@ -26,13 +76,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Отслеживаем, когда блок со счетчиками появляется в зоне видимости
     const countersSection = document.querySelector('.counters');
     if (countersSection) {
         const observer = new IntersectionObserver((entries) => {
             if (entries[0].isIntersecting) {
                 startCounters();
-                observer.disconnect(); // Запускаем только один раз
+                observer.disconnect();
             }
         }, { threshold: 0.3 });
         observer.observe(countersSection);
@@ -40,11 +89,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // =========================================================
-// 2. ПЛАВНАЯ АНИМАЦИЯ ПОЯВЛЕНИЯ ЭЛЕМЕНТОВ ПРИ СКРОЛЛЕ
+// 4. АНИМАЦИЯ ПОЯВЛЕНИЯ ПРИ СКРОЛЛЕ
 // =========================================================
 document.addEventListener('DOMContentLoaded', () => {
     const animatedElements = document.querySelectorAll(
-        '.hero-text, .hero-image, .crew-card, .counter-item, .crew-wano'
+        '.hero-text, .hero-image, .crew-card, .counter-item, .crew-wano, ' +
+        '.sword-card, .enemy-card, .award-item, .ship-card, .theory-card, ' +
+        '.meme-card, .crew-relation-card, .bio-text, .bio-image, .win-item'
     );
 
     const observer = new IntersectionObserver((entries) => {
@@ -62,44 +113,19 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // =========================================================
-// 3. АНИМАЦИЯ РАЗРЕЗА ПО КЛИКУ НА ЛОГОТИП
-// =========================================================
-document.addEventListener('DOMContentLoaded', () => {
-    const logo = document.querySelector('.logo');
-    const slashEffect = document.querySelector('.slash-effect');
-
-    if (logo && slashEffect) {
-        logo.addEventListener('click', () => {
-            // Запускаем анимацию разреза
-            slashEffect.style.animation = 'none';
-            setTimeout(() => {
-                slashEffect.style.animation = 'slash 1.5s ease-in-out forwards';
-            }, 10);
-            
-            // Через 1.5 секунды возвращаем фоновую анимацию
-            setTimeout(() => {
-                slashEffect.style.animation = 'slash 6s linear infinite';
-            }, 1600);
-        });
-    }
-});
-
-// =========================================================
-// 4. ОПРОС "ЛУЧШАЯ ДЕВУШКА ДЛЯ ЗОРО" (с сохранением)
+// 5. ОПРОС "ЛУЧШАЯ ДЕВУШКА ДЛЯ ЗОРО"
 // =========================================================
 document.addEventListener('DOMContentLoaded', () => {
     const pollForm = document.getElementById('zoro-poll');
     const pollResults = document.getElementById('poll-results');
 
     if (pollForm) {
-        // Загружаем сохранённый голос
         const savedVote = localStorage.getItem('zoroPollVote');
         if (savedVote) {
             const radio = document.querySelector(`input[name="girl"][value="${savedVote}"]`);
             if (radio) radio.checked = true;
         }
 
-        // Обработка отправки
         pollForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const selected = document.querySelector('input[name="girl"]:checked');
@@ -110,8 +136,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const vote = selected.value;
             localStorage.setItem('zoroPollVote', vote);
-            
-            // Получаем текущую статистику
+
             let stats = JSON.parse(localStorage.getItem('zoroPollStats')) || {};
             stats[vote] = (stats[vote] || 0) + 1;
             localStorage.setItem('zoroPollStats', JSON.stringify(stats));
@@ -120,7 +145,6 @@ document.addEventListener('DOMContentLoaded', () => {
             pollForm.querySelector('button').textContent = 'Голос учтён! ✅';
         });
 
-        // Показываем результаты при загрузке
         const stats = JSON.parse(localStorage.getItem('zoroPollStats')) || {};
         if (Object.keys(stats).length > 0) {
             showPollResults(stats);
@@ -129,10 +153,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function showPollResults(stats) {
         if (!pollResults) return;
-        
+
         const total = Object.values(stats).reduce((a, b) => a + b, 0);
-        let html = '<h4>Результаты:</h4><ul>';
-        
+        let html = '<h4 style="margin-bottom: 15px;">🏆 Результаты:</h4><ul style="list-style: none; padding: 0;">';
+
         const names = {
             'tashigi': 'Ташиги',
             'hyori': 'Хёри',
@@ -145,106 +169,31 @@ document.addEventListener('DOMContentLoaded', () => {
         for (const [key, count] of Object.entries(stats)) {
             const percent = ((count / total) * 100).toFixed(1);
             const name = names[key] || key;
-            html += `<li>${name}: ${count} голосов (${percent}%)</li>`;
+            html += `<li style="padding: 8px 0; border-bottom: 1px solid var(--border);">${name}: ${count} голосов (${percent}%)</li>`;
         }
-        html += `</ul><p>Всего голосов: ${total}</p>`;
+        html += `</ul><p style="margin-top: 15px; font-weight: 700; color: var(--gold);">Всего голосов: ${total}</p>`;
         pollResults.innerHTML = html;
     }
 });
 
 // =========================================================
-// 5. ИНТЕРАКТИВНАЯ КАРТА (для map.html)
+// 6. АНИМАЦИЯ 3D-НАКЛОНА КАРТОЧЕК
 // =========================================================
 document.addEventListener('DOMContentLoaded', () => {
-    const mapPoints = document.querySelectorAll('.map-point');
-    const infoBox = document.getElementById('location-info');
+    const cards = document.querySelectorAll('.crew-card, .sword-card, .enemy-card, .ship-card');
 
-    if (mapPoints.length > 0 && infoBox) {
-        mapPoints.forEach(point => {
-            point.addEventListener('click', () => {
-                const location = point.getAttribute('data-location');
-                const info = getLocationInfo(location);
-                infoBox.innerHTML = `
-                    <h3>${info.name}</h3>
-                    <p><strong>История:</strong> ${info.history}</p>
-                    <p><strong>Значение для Зоро:</strong> ${info.significance}</p>
-                    ${info.battles ? `<p><strong>Битвы:</strong> ${info.battles}</p>` : ''}
-                `;
-                infoBox.style.display = 'block';
-                
-                // Подсветка активной точки
-                mapPoints.forEach(p => p.classList.remove('active'));
-                point.classList.add('active');
-            });
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+            card.style.transform = `perspective(600px) rotateY(${x * 10}deg) rotateX(${-y * 10}deg) translateY(-10px)`;
         });
-    }
 
-    function getLocationInfo(location) {
-        const data = {
-            'shimotsuki': {
-                name: 'Деревня Шимотсуки',
-                history: 'Родная деревня Зоро. Здесь он тренировался в додзё Иссин под руководством отца Куины.',
-                significance: 'Место, где Зоро дал клятву стать величайшим фехтовальщиком в мире.',
-                battles: ''
-            },
-            'shellstown': {
-                name: 'Шеллс-Таун',
-                history: 'Военный городок, где Зоро был заключён в тюрьму пиратами Моргана.',
-                significance: 'Здесь Зоро встретил Луффи и впервые решил стать пиратом.',
-                battles: 'Против капитана Моргана (победа)'
-            },
-            'arlongpark': {
-                name: 'Арлонг-парк',
-                history: 'Парк рыбо-людей, где Арлонг терроризировал деревню Нами.',
-                significance: 'Первая серьёзная битва, где Зоро показал преданность команде.',
-                battles: 'Против Хачи (победа)'
-            },
-            'enieslobby': {
-                name: 'Эниес Лобби',
-                history: 'Крепость Мирового правительства, остров правосудия.',
-                significance: 'Зоро раскрыл силу Асуры (9 мечей).',
-                battles: 'Против Каку (победа с Асурой)'
-            },
-            'sabaody': {
-                name: 'Сабаоди',
-                history: 'Архипелаг с мангровыми деревьями, место работорговли.',
-                significance: 'Зоро разнёс аукцион рабов, показав ненависть к несправедливости.',
-                battles: 'Против Пацифисты (поражение)'
-            },
-            'punkhazard': {
-                name: 'Панк Хазард',
-                history: 'Остров огня и льда, лаборатория Цезаря Клоуна.',
-                significance: 'Зоро получил новый шрам.',
-                battles: 'Против Моне (победа)'
-            },
-            'wano': {
-                name: 'Страна Вано',
-                history: 'Страна самураев, где раскрылась родословная Зоро.',
-                significance: 'Зоро получил меч Энма и победил Кинга.',
-                battles: 'Против Кинга (победа), против Кайдо (ранил его)'
-            }
-        };
-        return data[location] || { name: 'Неизвестно', history: '...', significance: '...', battles: '' };
-    }
-});
-
-// =========================================================
-// 6. АНИМАЦИЯ ПАРЯЩИХ МЕЧЕЙ НА СТРАНИЦЕ МЕЧЕЙ
-// =========================================================
-document.addEventListener('DOMContentLoaded', () => {
-    const swordCards = document.querySelectorAll('.sword-card');
-    if (swordCards.length > 0) {
-        swordCards.forEach(card => {
-            card.addEventListener('mouseenter', () => {
-                card.style.transform = 'scale(1.05) translateY(-15px)';
-                card.style.boxShadow = '0 20px 60px rgba(123, 47, 190, 0.3)';
-            });
-            card.addEventListener('mouseleave', () => {
-                card.style.transform = 'scale(1) translateY(0)';
-                card.style.boxShadow = 'none';
-            });
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(600px) rotateY(0deg) rotateX(0deg) translateY(0px)';
         });
-    }
+    });
 });
 
 // =========================================================
@@ -255,8 +204,6 @@ document.addEventListener('DOMContentLoaded', () => {
     if (quoteElement) {
         const originalText = quoteElement.innerHTML;
         quoteElement.innerHTML = '';
-        
-        // Эффект печатания для текста (упрощённый)
         let index = 0;
         const text = originalText;
         const timer = setInterval(() => {
@@ -266,41 +213,8 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 clearInterval(timer);
             }
-        }, 30);
+        }, 25);
     }
 });
 
-// =========================================================
-// 8. МЕГА-АНИМАЦИЯ РАЗРЕЗА ПРИ ЗАГРУЗКЕ СТРАНИЦЫ
-// =========================================================
-document.addEventListener('DOMContentLoaded', () => {
-    const slash = document.querySelector('.slash-effect');
-    if (slash) {
-        // Запускаем эпичный разрез при загрузке
-        slash.style.animation = 'none';
-        setTimeout(() => {
-            slash.style.animation = 'slash 1.5s ease-in-out forwards';
-        }, 100);
-        setTimeout(() => {
-            slash.style.animation = 'slash 6s linear infinite';
-        }, 1600);
-    }
-});
-
-// =========================================================
-// 9. БОНУС: ЗВУКОВОЙ ЭФФЕКТ МЕЧА (опционально)
-// =========================================================
-// Раскомментируй, если хочешь добавить звук при клике на баннер
-/*
-document.addEventListener('DOMContentLoaded', () => {
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        hero.addEventListener('click', () => {
-            const audio = new Audio('https://www.soundjay.com/misc/sword-01.wav');
-            audio.play().catch(e => console.log('Звук отключён браузером'));
-        });
-    }
-});
-*/
-
-console.log('⚔️ Сайт Зоро загружен! Мечи наточены, анимации активированы. ⚔️');
+console.log('⚔️ Сайт Зоро загружен! Все анимации активированы! ⚔️');
