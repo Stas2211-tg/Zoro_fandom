@@ -3,14 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Награды Зоро</title>
+    <title>Награды Зоро — Достижения</title>
     <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
         .award-timeline { max-width: 800px; margin: 0 auto; }
-        .award-item { display: flex; gap: 20px; margin-bottom: 25px; padding: 20px; background: var(--card-bg); border-radius: 12px; border: 1px solid var(--border); transition: 0.3s; }
-        .award-item:hover { border-color: var(--gold); }
-        .award-number { font-family: 'Russo One', sans-serif; font-size: 32px; color: var(--gold); min-width: 60px; text-align: center; }
+        .award-item { display: flex; gap: 20px; margin-bottom: 25px; padding: 25px; background: var(--card-bg); border-radius: 16px; border: 1px solid var(--border); transition: 0.3s; align-items: center; }
+        .award-item:hover { border-color: var(--gold); transform: translateX(10px); }
+        .award-number { font-family: 'Russo One', sans-serif; font-size: 36px; color: var(--gold); min-width: 70px; text-align: center; }
+        .award-item img { max-width: 200px; border-radius: 12px; margin-top: 10px; border: 2px solid var(--border); }
         .wins-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; margin: 30px 0; }
         .win-item { background: var(--card-bg); padding: 15px; border-radius: 10px; border: 1px solid var(--border); text-align: center; font-weight: 700; transition: 0.3s; }
         .win-item:hover { border-color: var(--green); transform: scale(1.03); }
@@ -28,11 +29,11 @@
                 <a href="index.html">Главная</a>
                 <a href="bio.html">Биография</a>
                 <a href="swords.html">Мечи</a>
-                <a href="map.html">Карта</a>
+                <a href="enemies.html">Враги</a>
+                <a href="crew-relations.html">Команда</a>
                 <a href="fan.html">Фан-зона</a>
                 <a href="robin-zoro.html">Робин & Зоро</a>
                 <a href="awards.html">Награды</a>
-                <a href="enemies.html">Враги</a>
             </nav>
         </div>
     </header>
@@ -41,12 +42,40 @@
         <div class="container">
             <h2>🏆 Награды и достижения <span class="gold">Зоро</span></h2>
             <div class="award-timeline">
-                <div class="award-item"><div class="award-number">1</div><div><h3>60 000 000 бери</h3><p>Первая награда после битвы с Барок Воркс.</p></div></div>
-                <div class="award-item"><div class="award-number">2</div><div><h3>120 000 000 бери</h3><p>После событий в Эниес Лобби.</p></div></div>
-                <div class="award-item"><div class="award-number">3</div><div><h3>320 000 000 бери</h3><p>После битвы на Дрессарозе.</p></div></div>
-                <div class="award-item"><div class="award-number">4</div><div><h3>1 111 000 000 бери</h3><p>После победы над Кингом в Вано.</p><img src="bounty-1b.jpg" alt="Награда" style="max-width: 200px; border-radius: 12px; margin-top: 10px;"></div></div>
+                <div class="award-item">
+                    <div class="award-number">1</div>
+                    <div>
+                        <h3 style="color: var(--gold);">60 000 000 бери</h3>
+                        <p>Первая награда после битвы с Барок Воркс.</p>
+                        <img src="bounty-60m.jpg" alt="Награда 60 млн">
+                    </div>
+                </div>
+                <div class="award-item">
+                    <div class="award-number">2</div>
+                    <div>
+                        <h3 style="color: var(--gold);">120 000 000 бери</h3>
+                        <p>После событий в Эниес Лобби.</p>
+                        <img src="bounty-120m.jpg" alt="Награда 120 млн">
+                    </div>
+                </div>
+                <div class="award-item">
+                    <div class="award-number">3</div>
+                    <div>
+                        <h3 style="color: var(--gold);">320 000 000 бери</h3>
+                        <p>После битвы на Дрессарозе.</p>
+                        <img src="bounty-320m.jpg" alt="Награда 320 млн">
+                    </div>
+                </div>
+                <div class="award-item">
+                    <div class="award-number">4</div>
+                    <div>
+                        <h3 style="color: var(--gold);">1 111 000 000 бери</h3>
+                        <p>После победы над Кингом в Вано.</p>
+                        <img src="bounty-1b.jpg" alt="Награда 1 млрд">
+                    </div>
+                </div>
             </div>
-            <h3 style="margin-top: 50px;">⚔️ Главные победы</h3>
+            <h3 style="margin-top: 50px; text-align: center; font-family: 'Russo One', sans-serif; font-size: 32px;">⚔️ Главные победы</h3>
             <div class="wins-grid">
                 <div class="win-item">Мистер 1 (Алабаста)</div>
                 <div class="win-item">Каку (Эниес Лобби)</div>
