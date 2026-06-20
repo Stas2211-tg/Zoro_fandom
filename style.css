@@ -1,132 +1,92 @@
-/* ========================================================= */
-/* БАЗОВЫЕ НАСТРОЙКИ                                          */
-/* ========================================================= */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+/* БАЗОВЫЕ НАСТРОЙКИ */
+* { margin: 0; padding: 0; box-sizing: border-box; }
 :root {
     --green: #1a8a3a;
-    --green-dark: #0d2b0d;
-    --green-glow: rgba(26, 138, 58, 0.4);
     --purple: #7b2fbe;
-    --purple-glow: rgba(123, 47, 190, 0.4);
     --gold: #c9a84c;
-    --gold-glow: rgba(201, 168, 76, 0.3);
-    --bg: #0a0f0a;
+    --bg: #1a1f1a;
     --text: #e8f0e8;
-    --card-bg: #111811;
-    --border: #1a3a1a;
+    --card-bg: #1e261e;
+    --border: #2a3a2a;
 }
-
-html {
-    scroll-behavior: smooth;
-}
-
+html { scroll-behavior: smooth; }
 body {
     background: var(--bg);
     color: var(--text);
     font-family: 'Open Sans', sans-serif;
     line-height: 1.8;
     overflow-x: hidden;
-    position: relative;
 }
-
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 24px;
-}
-
+.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
 .green { color: var(--green); }
 .gold { color: var(--gold); }
 .purple { color: var(--purple); }
 
-/* ========================================================= */
-/* АНИМАЦИЯ: ЛЕТАЮЩИЕ ЛИСТЬЯ САКУРЫ                           */
-/* ========================================================= */
+/* САКУРА (оставляем) */
 .sakura-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 9999;
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    pointer-events: none; z-index: 9999;
     overflow: hidden;
 }
-
 .sakura-leaf {
-    position: absolute;
-    top: -10%;
-    width: 20px;
-    height: 20px;
+    position: absolute; top: -10%;
+    width: 20px; height: 20px;
     background: radial-gradient(circle at 30% 30%, #ffb7c5, #ff6b8a);
     border-radius: 50% 0 50% 0;
     opacity: 0.6;
     animation: fall linear infinite;
 }
-
 @keyframes fall {
-    0% {
-        transform: translateY(-10vh) rotate(0deg) scale(0.8);
-        opacity: 0.7;
-    }
-    50% {
-        opacity: 0.9;
-        transform: translateY(50vh) rotate(180deg) scale(1.2);
-    }
-    100% {
-        transform: translateY(110vh) rotate(360deg) scale(0.8);
-        opacity: 0;
-    }
+    0% { transform: translateY(-10vh) rotate(0deg) scale(0.8); opacity: 0.7; }
+    50% { opacity: 0.9; transform: translateY(50vh) rotate(180deg) scale(1.2); }
+    100% { transform: translateY(110vh) rotate(360deg) scale(0.8); opacity: 0; }
 }
 
-/* ========================================================= */
-/* АНИМАЦИЯ: ЭФФЕКТ РАЗРЕЗА                                   */
-/* ========================================================= */
+/* НАСТОЯЩАЯ АНИМАЦИЯ РАЗРЕЗА (как у Зоро против Кайдо) */
 .slash-overlay {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     pointer-events: none;
     z-index: 9998;
-    background: linear-gradient(135deg, transparent 40%, rgba(26, 138, 58, 0.3) 50%, rgba(123, 47, 190, 0.2) 60%, transparent 70%);
-    background-size: 300% 300%;
+    background: transparent;
     opacity: 0;
     transition: opacity 0.3s;
+    background: radial-gradient(ellipse at 50% 50%, rgba(26, 138, 58, 0.6) 0%, transparent 60%);
 }
-
+.slash-overlay::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(135deg, rgba(123, 47, 190, 0.4) 0%, transparent 50%, rgba(26, 138, 58, 0.4) 100%);
+    transform: scaleX(0);
+    transform-origin: center;
+}
 .slash-overlay.active {
     opacity: 1;
-    animation: slashEffect 1s ease-out forwards;
+}
+.slash-overlay.active::before {
+    animation: slashReal 0.8s ease-out forwards;
+}
+@keyframes slashReal {
+    0% { transform: scaleX(0); opacity: 0; }
+    20% { opacity: 1; }
+    80% { opacity: 1; }
+    100% { transform: scaleX(1); opacity: 0; }
 }
 
-@keyframes slashEffect {
-    0% { background-position: -200% 0%; opacity: 0; }
-    10% { opacity: 1; }
-    90% { opacity: 1; }
-    100% { background-position: 200% 0%; opacity: 0; }
-}
-
-/* ========================================================= */
-/* ШАПКА (ХЕДЕР)                                              */
-/* ========================================================= */
+/* ШАПКА */
 .header {
     padding: 15px 0;
-    background: rgba(10, 15, 10, 0.95);
+    background: rgba(26, 31, 26, 0.95);
     backdrop-filter: blur(12px);
     border-bottom: 2px solid var(--green);
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 4px 30px var(--green-glow);
 }
-
 .header-inner {
     display: flex;
     align-items: center;
@@ -134,7 +94,6 @@ body {
     flex-wrap: wrap;
     gap: 15px;
 }
-
 .logo {
     display: flex;
     align-items: center;
@@ -143,31 +102,8 @@ body {
     font-size: 28px;
     letter-spacing: 3px;
     cursor: pointer;
-    transition: 0.3s;
 }
-
-.logo:hover {
-    transform: scale(1.05);
-    text-shadow: 0 0 30px var(--green-glow);
-}
-
-.logo-skull {
-    height: 50px;
-    width: auto;
-    filter: drop-shadow(0 0 15px var(--green-glow));
-    transition: 0.3s;
-}
-
-.logo:hover .logo-skull {
-    filter: drop-shadow(0 0 30px var(--green-glow)) drop-shadow(0 0 60px var(--purple-glow));
-}
-
-.nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px 18px;
-}
-
+.logo-skull { height: 50px; width: auto; filter: drop-shadow(0 0 15px var(--green)); }
 .nav a {
     color: #b8c0b8;
     text-decoration: none;
@@ -178,288 +114,120 @@ body {
     transition: 0.3s;
     padding: 5px 0;
     border-bottom: 2px solid transparent;
-    position: relative;
 }
+.nav a:hover { color: var(--green); border-bottom-color: var(--green); }
 
-.nav a::after {
-    content: '';
-    position: absolute;
-    bottom: -2px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: var(--green);
-    transition: 0.3s;
-}
-
-.nav a:hover {
-    color: var(--green);
-    text-shadow: 0 0 20px var(--green-glow);
-}
-
-.nav a:hover::after {
-    width: 100%;
-}
-
-/* ========================================================= */
-/* ГЛАВНЫЙ БАННЕР                                            */
-/* ========================================================= */
+/* ГЛАВНЫЙ БАННЕР */
 .hero {
     padding: 60px 0 80px;
-    background: radial-gradient(ellipse at 30% 50%, #0d2b0d 0%, #0a0f0a 80%);
-    position: relative;
-    overflow: hidden;
+    background: radial-gradient(ellipse at 30% 50%, #1a2a1a 0%, #0d120d 80%);
     min-height: 90vh;
     display: flex;
     align-items: center;
 }
-
-.hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at 70% 30%, rgba(26, 138, 58, 0.05) 0%, transparent 70%);
-    animation: pulseGlow 4s ease-in-out infinite;
-}
-
-@keyframes pulseGlow {
-    0%, 100% { opacity: 0.3; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.2); }
-}
-
 .hero-content {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 40px;
     align-items: center;
-    position: relative;
-    z-index: 2;
 }
-
-.hero-text {
-    animation: fadeInUp 1s ease;
-}
-
-.hero-subtitle {
-    font-size: 18px;
-    color: var(--gold);
-    letter-spacing: 6px;
-    text-transform: uppercase;
-    margin-bottom: 10px;
-    animation: glowText 3s ease-in-out infinite;
-}
-
-@keyframes glowText {
-    0%, 100% { text-shadow: 0 0 10px var(--gold-glow); }
-    50% { text-shadow: 0 0 30px var(--gold-glow), 0 0 60px rgba(201, 168, 76, 0.2); }
-}
-
 .hero h1 {
     font-family: 'Russo One', sans-serif;
     font-size: 72px;
     text-transform: uppercase;
     letter-spacing: 8px;
     line-height: 1.1;
-    margin-bottom: 20px;
-    animation: fadeInUp 1.2s ease;
 }
-
-.hero h1 .gold {
-    animation: glowText 2s ease-in-out infinite;
-}
-
 .hero-quote {
     font-size: 24px;
     font-style: italic;
     border-left: 4px solid var(--gold);
     padding-left: 25px;
     margin: 25px 0 35px;
-    color: #d0d8d0;
-    animation: fadeInUp 1.4s ease;
-    min-height: 80px;
+}
+.hero-silhouette {
+    max-width: 100%;
+    max-height: 600px;
+    filter: drop-shadow(0 0 40px var(--green)) drop-shadow(0 0 80px var(--purple));
+    animation: floatHero 4s ease-in-out infinite;
+}
+@keyframes floatHero {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
 }
 
-.hero-quote .gold {
-    color: var(--gold);
-}
-
-.hero-buttons {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
-    animation: fadeInUp 1.6s ease;
-}
-
+/* КНОПКИ */
 .btn {
     padding: 14px 40px;
     border-radius: 50px;
     text-decoration: none;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 1.5px;
     font-size: 14px;
     transition: 0.4s;
-    display: inline-block;
     border: 2px solid transparent;
-    position: relative;
-    overflow: hidden;
 }
-
-.btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
-    transition: 0.5s;
-}
-
-.btn:hover::before {
-    left: 100%;
-}
-
 .btn-primary {
     background: var(--green);
     color: #fff;
-    box-shadow: 0 0 30px var(--green-glow);
+    box-shadow: 0 0 30px rgba(26, 138, 58, 0.3);
 }
-
 .btn-primary:hover {
     background: transparent;
     border-color: var(--green);
     color: var(--green);
-    transform: scale(1.05) translateY(-3px);
-    box-shadow: 0 0 50px var(--green-glow);
+    transform: scale(1.05);
 }
-
 .btn-secondary {
     background: transparent;
     border-color: var(--purple);
     color: var(--purple);
 }
-
 .btn-secondary:hover {
     background: var(--purple);
     color: #fff;
-    transform: scale(1.05) translateY(-3px);
-    box-shadow: 0 0 50px var(--purple-glow);
+    transform: scale(1.05);
 }
 
-.hero-image {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.hero-silhouette {
-    max-width: 100%;
-    height: auto;
-    max-height: 600px;
-    filter: drop-shadow(0 0 40px var(--green-glow)) drop-shadow(0 0 80px var(--purple-glow));
-    animation: floatHero 4s ease-in-out infinite;
-}
-
-@keyframes floatHero {
-    0%, 100% { transform: translateY(0px) scale(1); }
-    50% { transform: translateY(-20px) scale(1.02); }
-}
-
-/* ========================================================= */
-/* СЧЁТЧИКИ                                                  */
-/* ========================================================= */
+/* СЧЁТЧИКИ */
 .counters {
     padding: 60px 0;
     background: var(--card-bg);
     border-top: 1px solid var(--border);
     border-bottom: 1px solid var(--border);
 }
-
 .counters-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 30px;
     text-align: center;
 }
-
-.counter-item {
-    padding: 20px;
-    border-radius: 16px;
-    background: rgba(26, 138, 58, 0.05);
-    border: 1px solid var(--border);
-    transition: 0.3s;
-}
-
-.counter-item:hover {
-    border-color: var(--gold);
-    transform: translateY(-5px);
-    box-shadow: 0 10px 40px rgba(201, 168, 76, 0.1);
-}
-
 .counter-number {
     font-family: 'Russo One', sans-serif;
     font-size: 52px;
     color: var(--gold);
-    line-height: 1.2;
-    animation: counterPulse 2s ease-in-out infinite;
 }
-
-@keyframes counterPulse {
-    0%, 100% { text-shadow: 0 0 10px var(--gold-glow); }
-    50% { text-shadow: 0 0 30px var(--gold-glow), 0 0 60px rgba(201, 168, 76, 0.2); }
-}
-
 .counter-label {
     font-size: 16px;
     color: #8a9a8a;
     text-transform: uppercase;
     letter-spacing: 2px;
-    margin-top: 5px;
 }
 
-/* ========================================================= */
-/* ПОДВАЛ (ФУТЕР)                                            */
-/* ========================================================= */
+/* ПОДВАЛ */
 .footer {
     padding: 40px 0;
     background: var(--card-bg);
     border-top: 2px solid var(--border);
-    margin-top: 40px;
-}
-
-.footer-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
     text-align: center;
 }
-
-.footer-logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-family: 'Russo One', sans-serif;
-    font-size: 24px;
-}
-
-.footer-skull {
-    height: 40px;
-    width: auto;
-    filter: drop-shadow(0 0 10px var(--green-glow));
-}
-
 .footer-links {
     display: flex;
     gap: 20px;
-    flex-wrap: wrap;
     justify-content: center;
+    flex-wrap: wrap;
+    margin: 15px 0;
 }
-
 .footer-btn {
     padding: 10px 30px;
     border: 2px solid var(--green);
@@ -467,152 +235,36 @@ body {
     color: var(--text);
     text-decoration: none;
     font-weight: 700;
-    font-size: 14px;
-    transition: 0.4s;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    position: relative;
-    overflow: hidden;
+    transition: 0.3s;
 }
-
-.footer-btn::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-    transition: 0.5s;
-}
-
-.footer-btn:hover::before {
-    left: 100%;
-}
-
 .footer-btn:hover {
     background: var(--green);
     color: #fff;
-    box-shadow: 0 0 40px var(--green-glow);
     transform: scale(1.05);
 }
-
 .footer-copy {
     font-size: 14px;
     color: #5a6a5a;
-    line-height: 1.8;
 }
 
-.footer-copy p:last-child {
-    margin-top: 5px;
-    font-size: 12px;
-    color: #3a4a3a;
-}
-
-/* ========================================================= */
-/* АНИМАЦИЯ ПОЯВЛЕНИЯ ПРИ СКРОЛЛЕ                            */
-/* ========================================================= */
+/* АНИМАЦИЯ ПОЯВЛЕНИЯ */
 .animate-on-scroll {
     opacity: 0;
     transform: translateY(50px);
     transition: all 0.8s cubic-bezier(0.2, 0.9, 0.3, 1);
 }
+.animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
 
-.animate-on-scroll.visible {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* ========================================================= */
-/* АДАПТАЦИЯ ПОД МОБИЛЬНЫЕ УСТРОЙСТВА                        */
-/* ========================================================= */
+/* АДАПТАЦИЯ */
 @media (max-width: 992px) {
-    .hero-content {
-        grid-template-columns: 1fr;
-        text-align: center;
-    }
-
-    .hero h1 {
-        font-size: 48px;
-        letter-spacing: 4px;
-    }
-
-    .hero-quote {
-        border-left: none;
-        padding-left: 0;
-        border-top: 3px solid var(--gold);
-        padding-top: 20px;
-        font-size: 20px;
-    }
-
-    .hero-buttons {
-        justify-content: center;
-    }
-
-    .hero-silhouette {
-        max-height: 350px;
-    }
-
-    .counters-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .counter-number {
-        font-size: 40px;
-    }
+    .hero-content { grid-template-columns: 1fr; text-align: center; }
+    .hero h1 { font-size: 48px; }
+    .hero-quote { border-left: none; border-top: 3px solid var(--gold); padding-top: 20px; }
+    .hero-silhouette { max-height: 350px; }
+    .counters-grid { grid-template-columns: repeat(2, 1fr); }
 }
-
 @media (max-width: 576px) {
-    .header-inner {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 10px;
-    }
-
-    .logo {
-        justify-content: center;
-        font-size: 22px;
-    }
-
-    .logo-skull {
-        height: 40px;
-    }
-
-    .nav {
-        justify-content: center;
-        gap: 5px 12px;
-    }
-
-    .nav a {
-        font-size: 11px;
-    }
-
-    .hero {
-        padding: 40px 0 50px;
-        min-height: 70vh;
-    }
-
-    .hero h1 {
-        font-size: 32px;
-        letter-spacing: 2px;
-    }
-
-    .hero-quote {
-        font-size: 16px;
-        padding-top: 15px;
-    }
-
-    .hero-subtitle {
-        font-size: 14px;
-        letter-spacing: 3px;
-    }
-
-    .btn {
-        padding: 10px 25px;
-        font-size: 12px;
-    }
-
-    .counter-number {
-        font-size: 32px;
-    }
+    .hero h1 { font-size: 32px; }
+    .hero-quote { font-size: 16px; }
+    .header-inner { flex-direction: column; }
 }
