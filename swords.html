@@ -3,24 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Мечи Зоро — Легендарные клинки и техники</title>
+    <title>Мечи Зоро — Легендарные клинки</title>
     <link rel="icon" href="zoro-skull.png" type="image/png">
     <link href="https://fonts.googleapis.com/css2?family=Russo+One&family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <style>
         .swords-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin: 40px 0; }
-        .sword-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 30px 20px; text-align: center; transition: 0.4s; }
-        .sword-card:hover { transform: translateY(-12px); border-color: var(--gold); box-shadow: 0 15px 50px rgba(201, 168, 76, 0.1); }
-        .sword-card img { max-width: 200px; margin-bottom: 15px; transition: 0.3s; }
+        .sword-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 20px; padding: 30px 20px; text-align: center; transition: all var(--transition); }
+        .sword-card:hover { transform: translateY(-12px); border-color: var(--gold); box-shadow: 0 20px 60px var(--shadow); }
+        .sword-card img { max-width: 200px; margin-bottom: 15px; transition: all var(--transition); }
         .sword-card:hover img { transform: scale(1.05); }
         .sword-card h3 { font-family: 'Russo One', sans-serif; font-size: 24px; color: var(--gold); }
-        .sword-card .grade { color: #8a9a8a; font-size: 14px; letter-spacing: 1px; }
-        .sword-card p { margin-top: 10px; line-height: 1.8; }
+        .sword-card .grade { color: var(--text-dark); font-size: 14px; }
+        .sword-card p { margin-top: 10px; line-height: 2; font-size: 15px; }
         .tech-grid { display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin: 30px 0; }
-        .tech-item { background: var(--card-bg); padding: 15px 25px; border-radius: 50px; border: 1px solid var(--border); font-weight: 700; transition: 0.3s; }
+        .tech-item { background: var(--card-bg); padding: 14px 24px; border-radius: 50px; border: 1px solid var(--border); font-weight: 700; transition: all var(--transition); font-size: 14px; }
         .tech-item:hover { border-color: var(--gold); transform: scale(1.05); }
-        .tech-item.purple { border-color: var(--purple); }
-        .tech-item.gold { border-color: var(--gold); }
+        .asura-section { text-align: center; margin: 40px 0; padding: 30px; background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border); }
+        .asura-section h3 { font-family: 'Russo One', sans-serif; font-size: 28px; color: var(--purple); }
+        .asura-section p { max-width: 700px; margin: 15px auto; line-height: 2; font-size: 15px; }
         @media (max-width: 768px) { .swords-grid { grid-template-columns: 1fr; } }
     </style>
 </head>
@@ -30,82 +31,86 @@
         <div class="container header-inner">
             <div class="logo">
                 <img src="zoro-skull.png" alt="Герб Зоро" class="logo-skull">
-                <span>Z<span class="green">O</span>RO</span>
+                <span class="anim-text">Z<span class="green">O</span>RO</span>
             </div>
             <nav class="nav">
-                <a href="index.html">Главная</a>
-                <a href="bio.html">Биография</a>
-                <a href="swords.html">Мечи</a>
-                <a href="enemies.html">Враги</a>
-                <a href="crew-relations.html">Команда</a>
-                <a href="fan.html">Фан-зона</a>
-                <a href="robin-zoro.html">Робин & Зоро</a>
-                <a href="awards.html">Награды</a>
+                <a href="index.html" class="anim-text">Главная</a>
+                <a href="bio.html" class="anim-text">Биография</a>
+                <a href="swords.html" class="anim-text">Мечи</a>
+                <a href="enemies.html" class="anim-text">Враги</a>
+                <a href="crew-relations.html" class="anim-text">Команда</a>
+                <a href="fan.html" class="anim-text">Фан-зона</a>
+                <a href="awards.html" class="anim-text">Награды</a>
+                <div class="lang-group">
+                    <button class="lang-btn active" data-lang="ru">RU</button>
+                    <button class="lang-btn" data-lang="en">EN</button>
+                    <button class="lang-btn" data-lang="kk">KK</button>
+                    <button class="lang-btn" data-lang="ja">JA</button>
+                    <button class="lang-btn" data-lang="zh">ZH</button>
+                </div>
+                <div class="theme-group">
+                    <button class="theme-btn active" data-theme="mixed">🌓</button>
+                    <button class="theme-btn" data-theme="light">☀️</button>
+                    <button class="theme-btn" data-theme="dark">🌙</button>
+                </div>
+                <button class="auth-btn anim-text">🔑 Войти</button>
             </nav>
         </div>
     </header>
 
     <section class="swords">
         <div class="container">
-            <h2 style="font-family: 'Russo One', sans-serif; font-size: 44px; text-transform: uppercase; letter-spacing: 4px; text-align: center; color: var(--gold);">⚔️ Мечи и техники Зоро</h2>
-            <p style="text-align: center; color: #8a9a8a; font-size: 18px; margin-bottom: 40px;">Три легендарных клинка и боевые техники, которыми он сокрушает врагов</p>
+            <h2 class="anim-title" style="font-family: 'Russo One', sans-serif; font-size: 40px; text-transform: uppercase; letter-spacing: 4px; text-align: center; color: var(--gold);">⚔️ Мечи и техники Зоро</h2>
+            <p class="anim-text" style="text-align: center; color: var(--text-dark); font-size: 17px; margin-bottom: 35px;">Три легендарных клинка и боевые техники, которыми он сокрушает врагов</p>
 
             <div class="swords-grid">
-                <!-- ВАДО -->
-                <div class="sword-card">
-                    <img src="wado.png" alt="Вадо Ичимонидзи" style="filter: drop-shadow(0 0 30px rgba(255,255,255,0.2));">
+                <div class="sword-card anim-text">
+                    <div class="image-frame"><img src="wado.png" alt="Вадо Ичимонидзи" style="filter: drop-shadow(0 0 30px rgba(255,255,255,0.2));"></div>
                     <h3>Вадо Ичимонидзи</h3>
                     <p class="grade">21 великий меч</p>
-                    <p>Последний дар Куины. Белый клинок с белым свечением. Символ клятвы. Зоро никогда не расстаётся с этим мечом. Он носит его как напоминание о своей цели.</p>
+                    <p>Последний дар Куины. Белый клинок с белым свечением. Символ клятвы. Зоро никогда не расстаётся с этим мечом. Он носит его как напоминание о своей цели и как обещание стать сильнейшим. Этот меч — его связь с прошлым и его будущее. Он самый дорогой для Зоро, потому что он единственный, кто помнит его клятву.</p>
                 </div>
 
-                <!-- САНДАЙ -->
-                <div class="sword-card">
-                    <img src="sandai.png" alt="Сандай Китэцу" style="filter: drop-shadow(0 0 30px rgba(123, 47, 190, 0.4));">
+                <div class="sword-card anim-text">
+                    <div class="image-frame"><img src="sandai.png" alt="Сандай Китэцу" style="filter: drop-shadow(0 0 30px rgba(123, 47, 190, 0.4));"></div>
                     <h3>Сандай Китэцу</h3>
                     <p class="grade">Проклятый меч</p>
-                    <p>Фиолетовый клинок с аурой проклятия. Приносит смерть владельцу, но Зоро подчинил его своей волей. Его фиолетовое свечение — символ силы и контроля.</p>
+                    <p>Фиолетовый клинок с аурой проклятия. Приносит смерть владельцу, но Зоро подчинил его своей волей. Его фиолетовое свечение — символ силы и контроля. Этот меч стал частью Зоро, его тёмной стороной, которую он обуздал. Он доказывает, что даже проклятие можно обратить в силу, если у тебя есть воля.</p>
                 </div>
 
-                <!-- ЭНМА -->
-                <div class="sword-card">
-                    <img src="enma.png" alt="Энма" style="filter: drop-shadow(0 0 30px rgba(26, 138, 58, 0.4));">
+                <div class="sword-card anim-text">
+                    <div class="image-frame"><img src="enma.png" alt="Энма" style="filter: drop-shadow(0 0 30px rgba(26, 138, 58, 0.4));"></div>
                     <h3>Энма</h3>
                     <p class="grade">Легендарный клинок Одена</p>
-                    <p>Зелёное свечение, высасывает Хаки. Способен разрубить небо. Получен в Вано. Это самый мощный меч Зоро, который требует полного контроля над Хаки.</p>
+                    <p>Зелёное свечение, высасывает Хаки. Способен разрубить небо. Получен в Вано. Это самый мощный меч Зоро, который требует полного контроля над Хаки. Он был создан для легенд, и Зоро стал достоин его. Энма — это ключ к его будущей силе, к битве с Михоуком.</p>
                 </div>
             </div>
 
-            <!-- АСУРА -->
-            <div style="text-align: center; margin: 40px 0; padding: 30px; background: var(--card-bg); border-radius: 20px; border: 1px solid var(--border);">
-                <h3 style="font-family: 'Russo One', sans-serif; font-size: 32px; color: var(--purple);">👹 Асура — 9 мечей</h3>
-                <img src="asura.jpg" alt="Асура Зоро" style="max-width: 60%; border-radius: 16px; border: 2px solid var(--border); margin: 20px 0;">
-                <p style="max-width: 700px; margin: 0 auto; line-height: 1.9;">Асура — демоническая форма Зоро, в которой он создаёт 9 рук и 9 голов. Это не дьявольский плод, а проявление его духа и воли. Впервые использовал против Каку в Эниес Лобби, а в Вано усилил до «Короля Ада».</p>
+            <div class="asura-section anim-text">
+                <h3>👹 Асура — 9 мечей</h3>
+                <div class="image-frame"><img src="asura.jpg" alt="Асура Зоро" style="max-width: 60%;"></div>
+                <p>Асура — демоническая форма Зоро, в которой он создаёт 9 рук и 9 голов. Это не дьявольский плод, а проявление его духа и воли. Впервые использовал против Каку в Эниес Лобби, а в Вано усилил до «Короля Ада». Эта форма делает его почти непобедимым, но требует колоссальной концентрации. Она — его козырь в самых сложных битвах.</p>
             </div>
 
-            <h3 style="font-family: 'Russo One', sans-serif; font-size: 32px; text-align: center; color: var(--gold); margin-top: 40px;">⚡ Техники Зоро</h3>
+            <h3 class="anim-title" style="font-family: 'Russo One', sans-serif; font-size: 28px; text-align: center; color: var(--gold); margin-top: 40px;">⚡ Техники Зоро</h3>
             <div class="tech-grid">
-                <div class="tech-item">Они Гори — Демонический удар</div>
-                <div class="tech-item">Тацумаки — Драконий вихрь</div>
-                <div class="tech-item">Санзен Секкай — Три тысячи миров</div>
-                <div class="tech-item purple">Асура — 9 мечей</div>
-                <div class="tech-item gold">Король Ада — финальная техника</div>
-                <div class="tech-item">Року-Хо — испускание Хаки</div>
+                <div class="tech-item anim-text">Они Гори — Демонический удар</div>
+                <div class="tech-item anim-text">Тацумаки — Драконий вихрь</div>
+                <div class="tech-item anim-text">Санзен Секкай — Три тысячи миров</div>
+                <div class="tech-item anim-text purple" style="border-color: var(--purple);">Асура — 9 мечей</div>
+                <div class="tech-item anim-text gold" style="border-color: var(--gold);">Король Ада — финальная техника</div>
+                <div class="tech-item anim-text">Року-Хо — испускание Хаки</div>
             </div>
         </div>
     </section>
 
     <footer class="footer">
         <div class="container footer-content">
-            <div class="footer-logo">
-                <img src="zoro-skull.png" alt="Герб Зоро" class="footer-skull">
-                <span>Z<span class="green">O</span>RO</span>
-            </div>
             <div class="footer-links">
-                <a href="https://onepiecedl.com/" target="_blank" class="footer-btn">Смотреть аниме</a>
-                <a href="https://onepiece.fandom.com/ru/wiki/%D0%A0%D0%BE%D1%80%D0%BE%D0%BD%D0%BE%D0%B0_%D0%97%D0%BE%D1%80%D0%BE" target="_blank" class="footer-btn">Вики Зоро</a>
+                <a href="https://onepiecedl.com/" target="_blank" class="footer-btn anim-text">Смотреть аниме</a>
+                <a href="https://onepiece.fandom.com/ru/wiki/%D0%A0%D0%BE%D1%80%D0%BE%D0%BD%D0%BE%D0%B0_%D0%97%D0%BE%D1%80%D0%BE" target="_blank" class="footer-btn anim-text">Вики Зоро</a>
             </div>
-            <div class="footer-copy">
+            <div class="footer-copy anim-text">
                 <p>Создано фанатом для фанатов. Вся информация проверена по манге и SBS.</p>
                 <p>© 2026 — Roronoa Zoro Fan Site</p>
             </div>
