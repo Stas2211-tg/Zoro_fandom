@@ -71,26 +71,32 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // =========================================================
-// 2. ТЕМЫ (3 режима)
+// 2. ТЕМЫ
 // =========================================================
 document.addEventListener('DOMContentLoaded', () => {
     const savedTheme = localStorage.getItem('zoroTheme') || 'mixed';
     applyTheme(savedTheme);
+
     document.querySelectorAll('.theme-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.theme === savedTheme);
         btn.addEventListener('click', () => {
             const theme = btn.dataset.theme;
             localStorage.setItem('zoroTheme', theme);
             applyTheme(theme);
-            document.querySelectorAll('.theme-btn').forEach(b => b.classList.toggle('active', b.dataset.theme ===
-            theme));
+            document.querySelectorAll('.theme-btn').forEach(b => {
+                b.classList.toggle('active', b.dataset.theme === theme);
+            });
         });
     });
-
-    function applyTheme(theme) {
-        document.body.dataset.theme = theme === 'mixed' ? '' : theme;
-    }
 });
+
+function applyTheme(theme) {
+    if (theme === 'mixed') {
+        document.body.removeAttribute('data-theme');
+    } else {
+        document.body.setAttribute('data-theme', theme);
+    }
+}
 
 // =========================================================
 // 3. РЕГИСТРАЦИЯ/ВХОД
@@ -138,238 +144,7 @@ function updateAuthUI() {
 }
 
 // =========================================================
-// 4. ГОЛОСОВАНИЯ (только для авторизованных)
-// =========================================================
-document.addEventListener('DOMContentLoaded', () => {
-    const polls = document.querySelectorAll('.poll-form');
-    polls.forEach(poll => {
-        const pollId = poll.dataset.poll;
-        const resultsId = pollId + '-results';
-        const results = document.getElementById(resultsId);
-
-        const votes = JSON.parse(localStorage.getItem('zoroVotes') || '{}');
-        if (currentUser && votes[currentUser.username] && votes[currentUser.username][pollId]) {
-            poll.querySelector('button').textContent = '✅ Вы уже голосовали';
-            poll.querySelectorAll('input').forEach(inp => inp.disabled = true);
-            showPollResults(pollId, results);
-            return;
-        }
-
-        poll.addEventListener('submit', (e) => {
-            e.preventDefault();
-            if (!currentUser) {
-                alert('Войдите или зарегистрируйтесь, чтобы голосовать!');
-                return;
-            }
-            const selected = poll.querySelector('input:checked');
-            if (!selected) { alert('Выберите вариант!'); return; }
-            const vote = selected.value;
-
-            const votes = JSON.parse(localStorage.getItem('zoroVotes') || '{}');
-            if (!votes[currentUser.username]) votes[currentUser.username] = {};
-            if (votes[currentUser.username][pollId]) {
-                alert('Вы уже голосовали в этом опросе!');
-                return;
-            }
-            votes[currentUser.username][pollId] = vote;
-            localStorage.setItem('zoroVotes', JSON.stringify(votes));
-
-            let stats = JSON.parse(localStorage.getItem('pollStats_' + pollId) || '{}');
-            stats[vote] = (stats[vote] || 0) + 1;
-            localStorage.setItem('pollStats_' + pollId, JSON.stringify(stats));
-
-            showPollResults(pollId, results);
-            poll.querySelector('button').textContent = '✅ Голос учтён!';
-            poll.querySelectorAll('input').forEach(inp => inp.disabled = true);
-        });
-    });
-});
-
-function showPollResults(pollId, results) {
-    if (!results) return;
-    const stats = JSON.parse(localStorage.getItem('pollStats_' + pollId) || '{}');
-    const total = Object.values(stats).reduce((a, b) => a + b, 0);
-    if (total === 0) { results.innerHTML = '<p>Пока нет голосов. Будь первым!</p>'; return; }
-    let html = '<h4>📊 Результаты:</h4><ul style="list-style: none; padding: 0;">';
-    for (const [key, count] of Object.entries(stats)) {
-        const percent = ((count / total) * 100).toFixed(1);
-        html +=
-            `<li style="padding: 6px 0; border-bottom: 1px solid var(--border);">${key}: ${count} голосов (${percent}%)</li>`;
-    }
-    html += `</ul><p style="margin-top: 10px; font-weight: 700; color: var(--gold);">Всего голосов: ${total}</p>`;
-    results.innerHTML = html;
-}
-
-// =========================================================
-// 5. ИГРА: РАЗРЕЗАНИЕ ЯДЕР (ЗАЖИМ МЫШКИ)
-// =========================================================
-document.addEventListener('DOMContentLoaded', () => {
-    const gameArea = document.querySelector('.game-area');
-    const scoreDisplay = document.getElementById('game-score');
-    const startBtn = document.getElementById('game-start');
-    const closeBtn = document.querySelector('.game-close');
-    const gameWrapper = document.querySelector('.game-wrapper');
-
-    if (!gameArea || !scoreDisplay || !startBtn || !closeBtn) return;
-
-    let gameActive = false;
-    let gameScore = 0;
-    let gameInterval = null;
-    let isMouseDown = false;
-    let lastSliceX = 0;
-    let lastSliceY = 0;
-    const sliceLine = document.createElement('div');
-    sliceLine.className = 'slice-line';
-    gameArea.appendChild(sliceLine);
-
-    startBtn.addEventListener('click', startGame);
-    closeBtn.addEventListener('click', stopGame);
-
-    function startGame() {
-        if (gameActive) return;
-        gameActive = true;
-        gameScore = 0;
-        scoreDisplay.textContent = '⚔️ Разрезов: 0';
-        gameWrapper.style.borderColor = 'var(--gold)';
-        gameArea.innerHTML = '';
-        gameArea.appendChild(sliceLine);
-        gameInterval = setInterval(spawnCore, 600);
-        isMouseDown = false;
-        sliceLine.classList.remove('active');
-        gameArea.style.cursor = 'none';
-    }
-
-    function stopGame() {
-        gameActive = false;
-        if (gameInterval) {
-            clearInterval(gameInterval);
-            gameInterval = null;
-        }
-        gameArea.innerHTML = '';
-        gameArea.appendChild(sliceLine);
-        gameWrapper.style.borderColor = 'var(--border)';
-        gameArea.style.cursor = 'default';
-        sliceLine.classList.remove('active');
-    }
-
-    function spawnCore() {
-        if (!gameActive) return;
-        const core = document.createElement('div');
-        core.className = 'game-core';
-        core.textContent = '🍊';
-        core.style.left = Math.random() * 80 + 10 + '%';
-        core.style.animationDuration = (Math.random() * 3 + 4) + 's';
-        core.style.fontSize = (Math.random() * 20 + 32) + 'px';
-        core.dataset.sliced = 'false';
-        gameArea.appendChild(core);
-        setTimeout(() => {
-            if (core.parentNode && core.dataset.sliced === 'false') {
-                core.remove();
-            }
-        }, 7000);
-    }
-
-    // Зажим мыши
-    gameArea.addEventListener('mousedown', (e) => {
-        if (!gameActive) return;
-        isMouseDown = true;
-        lastSliceX = e.clientX - gameArea.getBoundingClientRect().left;
-        lastSliceY = e.clientY - gameArea.getBoundingClientRect().top;
-        sliceLine.classList.add('active');
-        sliceLine.style.left = lastSliceX + 'px';
-        sliceLine.style.top = lastSliceY + 'px';
-        sliceLine.style.width = '0px';
-    });
-
-    gameArea.addEventListener('mousemove', (e) => {
-        if (!gameActive || !isMouseDown) return;
-        const rect = gameArea.getBoundingClientRect();
-        const currentX = e.clientX - rect.left;
-        const currentY = e.clientY - rect.top;
-
-        // Обновляем линию разреза
-        const dx = currentX - lastSliceX;
-        const dy = currentY - lastSliceY;
-        const length = Math.sqrt(dx * dx + dy * dy);
-        const angle = Math.atan2(dy, dx) * (180 / Math.PI);
-
-        if (length > 2) {
-            sliceLine.style.width = length + 'px';
-            sliceLine.style.transform = `rotate(${angle}deg)`;
-            sliceLine.style.left = lastSliceX + 'px';
-            sliceLine.style.top = lastSliceY + 'px';
-
-            // Проверяем пересечение с ядрами
-            const cores = gameArea.querySelectorAll('.game-core');
-            cores.forEach(core => {
-                const coreRect = core.getBoundingClientRect();
-                const mouseX = e.clientX;
-                const mouseY = e.clientY;
-                const cx = coreRect.left + coreRect.width / 2;
-                const cy = coreRect.top + coreRect.height / 2;
-                const dist = Math.sqrt((mouseX - cx) ** 2 + (mouseY - cy) ** 2);
-                if (dist < 40 && core.dataset.sliced === 'false') {
-                    core.dataset.sliced = 'true';
-                    core.classList.add('sliced');
-                    gameScore++;
-                    scoreDisplay.textContent = '⚔️ Разрезов: ' + gameScore;
-                    setTimeout(() => core.remove(), 400);
-                }
-            });
-
-            lastSliceX = currentX;
-            lastSliceY = currentY;
-        }
-    });
-
-    gameArea.addEventListener('mouseup', () => {
-        isMouseDown = false;
-        sliceLine.classList.remove('active');
-    });
-
-    gameArea.addEventListener('mouseleave', () => {
-        isMouseDown = false;
-        sliceLine.classList.remove('active');
-    });
-});
-
-// =========================================================
-// 6. САКУРА
-// =========================================================
-document.addEventListener('DOMContentLoaded', () => {
-    const container = document.createElement('div');
-    container.className = 'sakura-container';
-    document.body.appendChild(container);
-    for (let i = 0; i < 25; i++) {
-        const leaf = document.createElement('div');
-        leaf.className = 'sakura-leaf';
-        leaf.style.left = Math.random() * 100 + '%';
-        leaf.style.animationDuration = (Math.random() * 8 + 8) + 's';
-        leaf.style.animationDelay = (Math.random() * 10) + 's';
-        leaf.style.width = (Math.random() * 15 + 10) + 'px';
-        leaf.style.height = (Math.random() * 15 + 10) + 'px';
-        leaf.style.opacity = Math.random() * 0.5 + 0.3;
-        container.appendChild(leaf);
-    }
-});
-
-// =========================================================
-// 7. РАЗРЕЗ
-// =========================================================
-document.addEventListener('DOMContentLoaded', () => {
-    const slash = document.createElement('div');
-    slash.className = 'slash-overlay';
-    document.body.appendChild(slash);
-    setTimeout(() => {
-        slash.classList.add('active');
-        setTimeout(() => {
-            slash.classList.remove('active');
-        }, 900);
-    }, 400);
-});
-
-// =========================================================
-// 8. СЧЁТЧИКИ
+// 4. СЧЁТЧИКИ
 // =========================================================
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.counter-number').forEach(c => {
@@ -394,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // =========================================================
-// 9. 3D-НАКЛОН КАРТОЧЕК
+// 5. 3D-НАКЛОН КАРТОЧЕК
 // =========================================================
 document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.enemy-card, .crew-relation-card, .sword-card, .ship-card').forEach(card => {
@@ -409,6 +184,209 @@ document.addEventListener('DOMContentLoaded', () => {
             card.style.transform = 'perspective(600px) rotateY(0) rotateX(0) translateY(0)';
         });
     });
+});
+
+// =========================================================
+// 6. ИГРА
+// =========================================================
+document.addEventListener('DOMContentLoaded', () => {
+    const gameArea = document.getElementById('game-area');
+    const scoreDisplay = document.getElementById('game-score');
+    const startBtn = document.getElementById('game-start');
+    const closeBtn = document.getElementById('game-close');
+    const gameWrapper = document.querySelector('.game-wrapper');
+
+    if (!gameArea || !scoreDisplay || !startBtn || !closeBtn) return;
+
+    let gameActive = false;
+    let gameScore = 0;
+    let gameInterval = null;
+    let isMouseDown = false;
+    let lastSliceX = 0;
+    let lastSliceY = 0;
+    const sliceLine = document.createElement('div');
+    sliceLine.className = 'slice-line';
+    sliceLine.style.cssText = `
+        position: absolute;
+        pointer-events: none;
+        background: linear-gradient(90deg, #1a8a3a, #7b2fbe);
+        height: 4px;
+        border-radius: 2px;
+        box-shadow: 0 0 30px rgba(26,138,58,0.6), 0 0 60px rgba(123,47,190,0.4);
+        opacity: 0;
+        transition: opacity 0.1s;
+    `;
+    gameArea.appendChild(sliceLine);
+
+    startBtn.addEventListener('click', startGame);
+    closeBtn.addEventListener('click', stopGame);
+
+    function startGame() {
+        if (gameActive) return;
+        gameActive = true;
+        gameScore = 0;
+        scoreDisplay.textContent = '⚔️ Разрезов: 0';
+        gameWrapper.style.borderColor = 'var(--gold)';
+        gameArea.innerHTML = '';
+        gameArea.appendChild(sliceLine);
+        gameInterval = setInterval(spawnCore, 600);
+        isMouseDown = false;
+        sliceLine.style.opacity = '0';
+        gameArea.style.cursor = 'none';
+        closeBtn.style.display = 'block';
+    }
+
+    function stopGame() {
+        gameActive = false;
+        if (gameInterval) {
+            clearInterval(gameInterval);
+            gameInterval = null;
+        }
+        gameArea.innerHTML = '';
+        gameArea.appendChild(sliceLine);
+        gameWrapper.style.borderColor = 'var(--border)';
+        gameArea.style.cursor = 'default';
+        sliceLine.style.opacity = '0';
+        closeBtn.style.display = 'none';
+    }
+
+    function spawnCore() {
+        if (!gameActive) return;
+        const core = document.createElement('div');
+        core.className = 'game-core';
+        core.textContent = '🍊';
+        core.style.cssText = `
+            position: absolute;
+            top: -60px;
+            font-size: ${Math.random() * 20 + 32}px;
+            left: ${Math.random() * 80 + 10}%;
+            animation: coreFall ${Math.random() * 3 + 4}s linear infinite;
+            user-select: none;
+            pointer-events: none;
+            filter: drop-shadow(0 0 20px rgba(255,107,53,0.6));
+            transition: transform 0.05s;
+        `;
+        core.dataset.sliced = 'false';
+        gameArea.appendChild(core);
+
+        setTimeout(() => {
+            if (core.parentNode && core.dataset.sliced === 'false') {
+                core.remove();
+            }
+        }, 7000);
+    }
+
+    gameArea.addEventListener('mousedown', (e) => {
+        if (!gameActive) return;
+        isMouseDown = true;
+        const rect = gameArea.getBoundingClientRect();
+        lastSliceX = e.clientX - rect.left;
+        lastSliceY = e.clientY - rect.top;
+        sliceLine.style.opacity = '1';
+        sliceLine.style.left = lastSliceX + 'px';
+        sliceLine.style.top = lastSliceY + 'px';
+        sliceLine.style.width = '0px';
+    });
+
+    gameArea.addEventListener('mousemove', (e) => {
+        if (!gameActive || !isMouseDown) return;
+        const rect = gameArea.getBoundingClientRect();
+        const currentX = e.clientX - rect.left;
+        const currentY = e.clientY - rect.top;
+
+        const dx = currentX - lastSliceX;
+        const dy = currentY - lastSliceY;
+        const length = Math.sqrt(dx * dx + dy * dy);
+        const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+
+        if (length > 2) {
+            sliceLine.style.width = length + 'px';
+            sliceLine.style.transform = `rotate(${angle}deg)`;
+            sliceLine.style.left = lastSliceX + 'px';
+            sliceLine.style.top = lastSliceY + 'px';
+
+            const cores = gameArea.querySelectorAll('.game-core');
+            cores.forEach(core => {
+                const coreRect = core.getBoundingClientRect();
+                const mouseX = e.clientX;
+                const mouseY = e.clientY;
+                const cx = coreRect.left + coreRect.width / 2;
+                const cy = coreRect.top + coreRect.height / 2;
+                const dist = Math.sqrt((mouseX - cx) ** 2 + (mouseY - cy) ** 2);
+                if (dist < 40 && core.dataset.sliced === 'false') {
+                    core.dataset.sliced = 'true';
+                    core.style.animation = 'coreSlice 0.4s ease forwards';
+                    core.style.transform = 'scale(1.8)';
+                    core.style.opacity = '0.5';
+                    gameScore++;
+                    scoreDisplay.textContent = '⚔️ Разрезов: ' + gameScore;
+                    setTimeout(() => core.remove(), 400);
+                }
+            });
+
+            lastSliceX = currentX;
+            lastSliceY = currentY;
+        }
+    });
+
+    gameArea.addEventListener('mouseup', () => {
+        isMouseDown = false;
+        sliceLine.style.opacity = '0';
+    });
+
+    gameArea.addEventListener('mouseleave', () => {
+        isMouseDown = false;
+        sliceLine.style.opacity = '0';
+    });
+});
+
+// =========================================================
+// 7. САКУРА
+// =========================================================
+document.addEventListener('DOMContentLoaded', () => {
+    const container = document.createElement('div');
+    container.className = 'sakura-container';
+    container.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9999;overflow:hidden;';
+    document.body.appendChild(container);
+
+    for (let i = 0; i < 25; i++) {
+        const leaf = document.createElement('div');
+        leaf.className = 'sakura-leaf';
+        leaf.style.cssText = `
+            position: absolute;
+            top: -10%;
+            width: ${Math.random() * 15 + 10}px;
+            height: ${Math.random() * 15 + 10}px;
+            background: radial-gradient(circle at 30% 30%, #ffb7c5, #ff6b8a);
+            border-radius: 50% 0 50% 0;
+            opacity: ${Math.random() * 0.5 + 0.3};
+            left: ${Math.random() * 100}%;
+            animation: fall ${Math.random() * 8 + 8}s linear infinite;
+            animation-delay: ${Math.random() * 10}s;
+        `;
+        container.appendChild(leaf);
+    }
+});
+
+// =========================================================
+// 8. АНИМАЦИЯ РАЗРЕЗА
+// =========================================================
+document.addEventListener('DOMContentLoaded', () => {
+    const slash = document.createElement('div');
+    slash.className = 'slash-overlay';
+    slash.style.cssText = `
+        position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:9998;
+        background:radial-gradient(ellipse at 50% 50%, rgba(26,138,58,0.6) 0%, transparent 60%);
+        opacity:0;transition:opacity 0.3s;
+    `;
+    document.body.appendChild(slash);
+
+    setTimeout(() => {
+        slash.style.opacity = '1';
+        setTimeout(() => {
+            slash.style.opacity = '0';
+        }, 900);
+    }, 400);
 });
 
 console.log('⚔️ Сайт Зоро загружен! Все анимации и функции активированы! ⚔️');
