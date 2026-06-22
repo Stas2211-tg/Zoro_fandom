@@ -1,64 +1,34 @@
 /* ========================================================= */
 /* БАЗОВЫЕ НАСТРОЙКИ                                          */
 /* ========================================================= */
-* { margin: 0; padding: 0; box-sizing: border-box; }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 :root {
     --green: #1a8a3a;
+    --green-glow: rgba(26, 138, 58, 0.4);
     --purple: #7b2fbe;
+    --purple-glow: rgba(123, 47, 190, 0.4);
     --gold: #c9a84c;
+    --gold-glow: rgba(201, 168, 76, 0.3);
     --bg: #1a241a;
     --bg-light: #2a3a2a;
     --bg-dark: #0a120a;
     --text: #e8f0e8;
-    --text-light: #f0f8f0;
     --text-dark: #b0c0b0;
     --card-bg: #1e2a1e;
-    --card-bg-light: #2a3a2a;
-    --card-bg-dark: #0d160d;
     --border: #2a402a;
-    --border-light: #3a5a3a;
-    --border-dark: #1a2a1a;
-    --shadow: rgba(0,0,0,0.3);
+    --shadow: rgba(0, 0, 0, 0.3);
     --transition: 0.4s cubic-bezier(0.2, 0.9, 0.3, 1);
 }
 
-/* ========================================================= */
-/* ТЕМЫ (переключаются через JS)                             */
-/* ========================================================= */
-body[data-theme="light"] {
-    --bg: #e8f0e8;
-    --bg-light: #d0e0d0;
-    --bg-dark: #c0d0c0;
-    --text: #1a241a;
-    --text-light: #0a120a;
-    --text-dark: #2a3a2a;
-    --card-bg: #d8e8d8;
-    --card-bg-light: #e0f0e0;
-    --card-bg-dark: #c8d8c8;
-    --border: #8aa88a;
-    --border-light: #9ab89a;
-    --border-dark: #7a987a;
-    --shadow: rgba(0,0,0,0.1);
+html {
+    scroll-behavior: smooth;
 }
 
-body[data-theme="dark"] {
-    --bg: #0a120a;
-    --bg-light: #0d160d;
-    --bg-dark: #060a06;
-    --text: #c0d0c0;
-    --text-light: #d0e0d0;
-    --text-dark: #a0b0a0;
-    --card-bg: #0d160d;
-    --card-bg-light: #101a10;
-    --card-bg-dark: #080d08;
-    --border: #1a2a1a;
-    --border-light: #2a3a2a;
-    --border-dark: #0d160d;
-    --shadow: rgba(0,0,0,0.5);
-}
-
-html { scroll-behavior: smooth; }
 body {
     background: var(--bg);
     color: var(--text);
@@ -67,141 +37,119 @@ body {
     overflow-x: hidden;
     transition: background var(--transition), color var(--transition);
 }
-.container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-.green { color: var(--green); }
-.gold { color: var(--gold); }
-.purple { color: var(--purple); }
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+.green {
+    color: var(--green);
+}
+
+.gold {
+    color: var(--gold);
+}
+
+.purple {
+    color: var(--purple);
+}
 
 /* ========================================================= */
-/* КРАСИВАЯ РАМКА ДЛЯ ВСЕХ КАРТИНОК                          */
+/* КРАСИВАЯ РАМКА (без радужной подсветки)                   */
 /* ========================================================= */
 .image-frame {
-    border: 3px solid var(--border);
-    border-radius: 16px;
-    padding: 8px;
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 6px;
     background: var(--card-bg);
-    box-shadow: 0 8px 32px var(--shadow);
+    box-shadow: 0 4px 16px var(--shadow);
     transition: all var(--transition);
     position: relative;
-    overflow: hidden;
+    display: inline-block;
 }
-.image-frame::before {
-    content: '';
-    position: absolute;
-    inset: -3px;
-    border-radius: 18px;
-    padding: 3px;
-    background: linear-gradient(135deg, var(--green), var(--purple), var(--gold));
-    opacity: 0;
-    transition: opacity var(--transition);
-    z-index: -1;
+
+.image-frame:hover {
+    border-color: var(--gold);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(201, 168, 76, 0.15);
 }
-.image-frame:hover::before { opacity: 1; }
-.image-frame:hover { transform: translateY(-5px) scale(1.02); border-color: transparent; }
 
 .image-frame img {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    border-radius: 12px;
-    transition: all var(--transition);
-    cursor: pointer;
+    border-radius: 10px;
+    display: block;
+    transition: transform var(--transition);
 }
-.image-frame:hover img { transform: scale(1.03); }
 
-/* ========================================================= */
-/* МОДАЛЬНОЕ ОКНО ДЛЯ КАРТИНОК                               */
-/* ========================================================= */
-.modal-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.9);
-    z-index: 99999;
-    display: none;
-    justify-content: center;
-    align-items: center;
-    padding: 40px;
-    backdrop-filter: blur(8px);
-    animation: modalFade 0.3s ease;
-}
-.modal-overlay.active { display: flex; }
-@keyframes modalFade { from { opacity: 0; } to { opacity: 1; } }
-
-.modal-content {
-    position: relative;
-    max-width: 90vw;
-    max-height: 90vh;
-}
-.modal-content img {
-    width: 100%;
-    height: 100%;
-    max-height: 85vh;
-    object-fit: contain;
-    border-radius: 20px;
-    box-shadow: 0 0 60px rgba(26, 138, 58, 0.2);
-    animation: modalZoom 0.4s ease;
-}
-@keyframes modalZoom { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-
-.modal-close {
-    position: absolute;
-    top: -50px;
-    right: -50px;
-    width: 50px;
-    height: 50px;
-    cursor: pointer;
-    transition: all var(--transition);
-    filter: drop-shadow(0 0 20px var(--green));
-}
-.modal-close:hover { transform: rotate(180deg) scale(1.2); filter: drop-shadow(0 0 40px var(--green)); }
-.modal-close img { width: 100%; height: 100%; object-fit: contain; }
-
-@media (max-width: 768px) {
-    .modal-close { top: -40px; right: 0; width: 40px; height: 40px; }
+.image-frame:hover img {
+    transform: scale(1.02);
 }
 
 /* ========================================================= */
 /* ЭПИЧНАЯ ШАПКА                                             */
 /* ========================================================= */
 .header {
-    padding: 10px 0;
+    padding: 8px 0;
     background: rgba(26, 36, 26, 0.92);
     backdrop-filter: blur(16px);
     border-bottom: 2px solid var(--green);
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 4px 40px rgba(26, 138, 58, 0.15);
+    box-shadow: 0 4px 30px rgba(26, 138, 58, 0.12);
     transition: all var(--transition);
 }
-.header:hover { box-shadow: 0 4px 60px rgba(26, 138, 58, 0.25); }
+
 .header-inner {
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px 12px;
 }
+
 .logo {
     display: flex;
     align-items: center;
     gap: 10px;
     font-family: 'Russo One', sans-serif;
-    font-size: 24px;
+    font-size: 26px;
     letter-spacing: 3px;
     cursor: pointer;
     transition: all var(--transition);
+    color: var(--text);
+    text-decoration: none;
+    user-select: none;
 }
-.logo:hover { transform: scale(1.05); text-shadow: 0 0 30px rgba(26, 138, 58, 0.4); }
-.logo-skull { height: 40px; width: auto; filter: drop-shadow(0 0 15px var(--green)); transition: all var(--transition); }
-.logo:hover .logo-skull { filter: drop-shadow(0 0 30px var(--green)) drop-shadow(0 0 60px var(--purple)); }
 
+.logo:hover {
+    transform: scale(1.04);
+    text-shadow: 0 0 30px var(--green-glow);
+}
+
+.logo-skull {
+    height: 40px;
+    width: auto;
+    filter: drop-shadow(0 0 12px var(--green-glow));
+    transition: all var(--transition);
+}
+
+.logo:hover .logo-skull {
+    filter: drop-shadow(0 0 25px var(--green-glow)) drop-shadow(0 0 50px var(--purple-glow));
+}
+
+/* Навигация и кнопки */
 .nav {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 4px 12px;
+    gap: 4px 10px;
 }
+
 .nav a {
     color: #b8c8b8;
     text-decoration: none;
@@ -213,127 +161,616 @@ body {
     padding: 4px 0;
     border-bottom: 2px solid transparent;
 }
-.nav a:hover { color: var(--green); text-shadow: 0 0 20px rgba(26, 138, 58, 0.3); border-bottom-color: var(--green); }
 
-.lang-group, .theme-group, .auth-group {
-    display: flex;
-    gap: 4px;
-    flex-wrap: wrap;
+.nav a:hover {
+    color: var(--green);
+    text-shadow: 0 0 20px var(--green-glow);
+    border-bottom-color: var(--green);
 }
-.lang-btn, .theme-btn, .auth-btn {
+
+/* ВЫПАДАЮЩЕЕ МЕНЮ ДЛЯ ЯЗЫКОВ */
+.lang-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.lang-toggle {
     background: transparent;
     border: 1px solid var(--border);
-    color: #8a9a8a;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 9px;
+    color: #b8c8b8;
+    padding: 4px 12px;
+    border-radius: 16px;
+    font-size: 12px;
     font-weight: 700;
-    text-transform: uppercase;
     cursor: pointer;
     transition: all var(--transition);
     font-family: 'Open Sans', sans-serif;
 }
-.lang-btn:hover, .theme-btn:hover, .auth-btn:hover {
+
+.lang-toggle:hover {
     border-color: var(--green);
     color: var(--green);
+    transform: scale(1.05);
+}
+
+.lang-menu {
+    display: none;
+    position: absolute;
+    top: 110%;
+    right: 0;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 6px 0;
+    min-width: 80px;
+    box-shadow: 0 8px 32px var(--shadow);
+    backdrop-filter: blur(8px);
+    z-index: 1001;
+}
+
+.lang-menu.active {
+    display: block;
+    animation: fadeSlideDown 0.25s ease;
+}
+
+@keyframes fadeSlideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.lang-menu button {
+    display: block;
+    width: 100%;
+    padding: 6px 16px;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+    text-align: left;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.lang-menu button:hover {
+    background: var(--bg);
+    color: var(--green);
+}
+
+.lang-menu button.active-lang {
+    color: var(--gold);
+    background: rgba(201, 168, 76, 0.08);
+}
+
+/* Кнопка "Войти" */
+.auth-btn {
+    background: transparent;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 4px 14px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all var(--transition);
+    font-family: 'Open Sans', sans-serif;
+}
+
+.auth-btn:hover {
+    background: var(--gold);
+    color: #fff;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px var(--gold-glow);
+}
+
+/* Кнопка темы */
+.theme-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: #b8c8b8;
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all var(--transition);
+}
+
+.theme-btn:hover {
+    border-color: var(--green);
     transform: scale(1.1);
 }
-.lang-btn.active, .theme-btn.active {
+
+.theme-btn.active {
+    border-color: var(--gold);
+    background: rgba(201, 168, 76, 0.1);
+}
+
+/* ========================================================= */
+/* МЕГА-КРУТЫЕ КНОПКИ (все)                                  */
+/* ========================================================= */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 34px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    border: none;
+    cursor: pointer;
+    transition: all var(--transition);
+    position: relative;
+    overflow: hidden;
+    font-family: 'Russo One', sans-serif;
+}
+
+.btn::before {
+    content: '⚔️';
+    font-size: 18px;
+    transition: transform var(--transition);
+}
+
+.btn::after {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: 50px;
+    padding: 2px;
+    background: linear-gradient(135deg, var(--green), var(--purple));
+    opacity: 0;
+    transition: opacity var(--transition);
+    z-index: -1;
+}
+
+.btn:hover::after {
+    opacity: 1;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--green), #0f6b2a);
+    color: #fff;
+    box-shadow: 0 4px 25px var(--green-glow);
+}
+
+.btn-primary:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 8px 45px var(--green-glow);
+}
+
+.btn-primary:active {
+    transform: scale(0.95);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, var(--purple), #5a1f8a);
+    color: #fff;
+    box-shadow: 0 4px 25px var(--purple-glow);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 8px 45px var(--purple-glow);
+}
+
+.btn-secondary:active {
+    transform: scale(0.95);
+}
+
+.btn-gold {
+    background: linear-gradient(135deg, var(--gold), #b8942a);
+    color: #1a241a;
+    box-shadow: 0 4px 25px var(--gold-glow);
+}
+
+.btn-gold:hover {
+    transform: translateY(-4px) scale(1.03);
+    box-shadow: 0 8px 45px var(--gold-glow);
+}
+
+.btn-gold:active {
+    transform: scale(0.95);
+}
+
+.btn-outline {
+    background: transparent;
+    color: var(--text);
+    border: 2px solid var(--border);
+}
+
+.btn-outline:hover {
+    border-color: var(--green);
+    color: var(--green);
+    transform: translateY(-4px);
+    box-shadow: 0 8px 30px var(--green-glow);
+}
+
+.btn-outline:active {
+    transform: scale(0.95);
+}
+
+/* ========================================================= */
+/* ПОДВАЛ (уменьшенные отступы)                              */
+/* ========================================================= */
+.footer {
+    padding: 20px 0 15px;
+    background: var(--card-bg);
+    border-top: 2px solid var(--border);
+    text-align: center;
+    margin-top: 0;
+}
+
+.footer-links {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 8px 0;
+}
+
+.footer-btn {
+    padding: 6px 20px;
+    border: 2px solid var(--green);
+    border-radius: 50px;
+    color: var(--text);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 12px;
+    transition: all var(--transition);
+}
+
+.footer-btn:hover {
     background: var(--green);
     color: #fff;
-    border-color: var(--green);
-    box-shadow: 0 0 20px rgba(26, 138, 58, 0.3);
+    transform: scale(1.05);
+    box-shadow: 0 0 25px var(--green-glow);
 }
-.auth-btn { border-color: var(--gold); color: var(--gold); }
-.auth-btn:hover { border-color: var(--gold); color: #fff; background: var(--gold); }
 
-/* ========================================================= */
-/* ГЛАВНЫЙ БАННЕР                                            */
-/* ========================================================= */
-.hero {
-    padding: 50px 0 70px;
-    background: radial-gradient(ellipse at 30% 50%, var(--bg-light) 0%, var(--bg) 80%);
-    min-height: 85vh;
-    display: flex;
-    align-items: center;
+.footer-copy {
+    font-size: 12px;
+    color: var(--text-dark);
+    line-height: 1.6;
 }
-.hero-content { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: center; }
-.hero h1 { font-family: 'Russo One', sans-serif; font-size: 64px; text-transform: uppercase; letter-spacing: 6px; line-height: 1.1; }
-.hero-quote { font-size: 22px; font-style: italic; border-left: 4px solid var(--gold); padding-left: 25px; margin: 20px 0 30px; }
-.hero-silhouette {
-    max-width: 100%;
-    max-height: 500px;
-    filter: drop-shadow(0 0 40px var(--green)) drop-shadow(0 0 80px var(--purple));
-    animation: floatHero 4s ease-in-out infinite;
+
+/* ========================================================= */
+/* АНИМАЦИИ ТЕКСТА (разные типы)                             */
+/* ========================================================= */
+/* Появление (плавное, лёгкое) */
+.anim-fade {
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
 }
-@keyframes floatHero { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Печатание (для цитат) */
+.anim-typewriter {
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid var(--gold);
+    animation: typing 2s steps(30, end), blink-caret 0.75s step-end infinite;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
+
+@keyframes blink-caret {
+    from,
+    to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: var(--gold);
+    }
+}
+
+/* Мерцание (для заголовков) */
+.anim-glitch {
+    animation: glitch 3s infinite;
+}
+
+@keyframes glitch {
+    0%,
+    90%,
+    100% {
+        text-shadow: 0 0 5px var(--green-glow);
+    }
+    92% {
+        text-shadow: 2px 0 var(--green), -2px 0 var(--purple);
+    }
+    94% {
+        text-shadow: -2px 0 var(--green), 2px 0 var(--purple);
+    }
+}
+
+/* Цветовой градиент (для важных надписей) */
+.anim-gradient {
+    background: linear-gradient(90deg, var(--gold), var(--green), var(--purple), var(--gold));
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradientMove 4s ease infinite;
+}
+
+@keyframes gradientMove {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
+/* Волна (для списков) */
+.anim-wave span {
+    display: inline-block;
+    animation: wave 1.5s ease-in-out infinite;
+}
+
+@keyframes wave {
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-6px);
+    }
+}
 
 /* ========================================================= */
-/* СЧЁТЧИКИ                                                  */
+/* ЭКСКЛЮЗИВНЫЙ РАЗДЕЛ (скрытый)                             */
 /* ========================================================= */
-.counters { padding: 50px 0; background: var(--card-bg); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
-.counters-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; text-align: center; }
-.counter-number { font-family: 'Russo One', sans-serif; font-size: 44px; color: var(--gold); }
-.counter-label { font-size: 15px; color: var(--text-dark); text-transform: uppercase; letter-spacing: 1px; }
+.exclusive-section {
+    display: none;
+    padding: 40px 0;
+    background: radial-gradient(ellipse at 50% 50%, #1a2a1a, #0d120d);
+    border-top: 2px solid var(--gold);
+    border-bottom: 2px solid var(--gold);
+    margin: 20px 0;
+}
+
+.exclusive-section.active {
+    display: block;
+    animation: fadeSlideUp 0.6s ease;
+}
+
+@keyframes fadeSlideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.exclusive-section .container {
+    max-width: 800px;
+}
+
+.exclusive-section h2 {
+    font-family: 'Russo One', sans-serif;
+    font-size: 32px;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.exclusive-section ul {
+    list-style: none;
+    padding: 0;
+}
+
+.exclusive-section li {
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 16px;
+    line-height: 1.8;
+}
+
+.exclusive-section li:last-child {
+    border-bottom: none;
+}
+
+.exclusive-section .gold {
+    font-weight: 700;
+}
 
 /* ========================================================= */
-/* ПОДВАЛ (БЕЗ ГЕРБА)                                        */
+/* ИГРА "РАЗРЕЗАНИЕ ЯДЕР"                                    */
 /* ========================================================= */
-.footer { padding: 30px 0; background: var(--card-bg); border-top: 2px solid var(--border); text-align: center; }
-.footer-links { display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin: 10px 0; }
-.footer-btn { padding: 8px 25px; border: 2px solid var(--green); border-radius: 50px; color: var(--text); text-decoration: none; font-weight: 700; transition: all var(--transition); font-size: 13px; }
-.footer-btn:hover { background: var(--green); color: #fff; transform: scale(1.05); box-shadow: 0 0 30px rgba(26, 138, 58, 0.3); }
-.footer-copy { font-size: 13px; color: var(--text-dark); }
+.game-wrapper {
+    background: var(--card-bg);
+    border: 2px solid var(--border);
+    border-radius: 20px;
+    padding: 25px;
+    margin: 30px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.game-wrapper .game-area {
+    position: relative;
+    width: 100%;
+    height: 400px;
+    background: radial-gradient(ellipse at center, #1a2a1a, #0d120d);
+    border-radius: 16px;
+    border: 2px solid var(--border);
+    overflow: hidden;
+    cursor: none;
+    margin-top: 15px;
+}
+
+.game-wrapper .game-area .game-core {
+    position: absolute;
+    top: -60px;
+    font-size: 40px;
+    user-select: none;
+    pointer-events: none;
+    animation: coreFall linear infinite;
+    filter: drop-shadow(0 0 15px rgba(255, 107, 53, 0.6));
+    transition: transform 0.05s;
+}
+
+@keyframes coreFall {
+    0% {
+        transform: translateY(-60px) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+.game-wrapper .game-area .game-core.sliced {
+    animation: coreSlice 0.4s ease forwards !important;
+}
+
+@keyframes coreSlice {
+    0% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.8);
+        opacity: 0.6;
+    }
+    100% {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+.game-wrapper .game-area .slice-line {
+    position: absolute;
+    pointer-events: none;
+    background: linear-gradient(90deg, var(--green), var(--purple));
+    height: 3px;
+    border-radius: 2px;
+    box-shadow: 0 0 20px var(--green-glow), 0 0 40px var(--purple-glow);
+    opacity: 0;
+    transition: opacity 0.1s;
+}
+
+.game-wrapper .game-area .slice-line.active {
+    opacity: 1;
+}
+
+.game-wrapper .game-score {
+    font-family: 'Russo One', sans-serif;
+    font-size: 28px;
+    color: var(--gold);
+    text-shadow: 0 0 30px var(--gold-glow);
+    margin-top: 10px;
+}
+
+.game-wrapper .game-close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    transition: all var(--transition);
+    z-index: 10;
+    filter: drop-shadow(0 0 10px var(--green-glow));
+}
+
+.game-wrapper .game-close:hover {
+    transform: rotate(180deg) scale(1.2);
+    filter: drop-shadow(0 0 25px var(--green-glow));
+}
+
+.game-wrapper .game-close img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
 
 /* ========================================================= */
-/* АНИМАЦИИ ТЕКСТА                                           */
+/* КОНВЕЙЕР (БОЛЬШОЙ)                                        */
 /* ========================================================= */
-.anim-title { animation: fadeSlideUp 0.8s ease both; }
-.anim-text { animation: fadeSlideUp 0.8s ease 0.15s both; }
-.anim-quote { animation: fadeSlideUp 0.8s ease 0.3s both; }
-.anim-label { animation: fadeSlideUp 0.8s ease 0.45s both; }
-@keyframes fadeSlideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
-
-.animate-on-scroll { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.2, 0.9, 0.3, 1); }
-.animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
-
-/* ========================================================= */
-/* БОЛЬШИЕ КОНВЕЙЕРЫ                                         */
-/* ========================================================= */
-.enemies-container, .crew-relations-container {
+.enemies-container,
+.crew-relations-container {
     overflow: hidden;
     position: relative;
     padding: 20px 0;
 }
-.enemies-track, .crew-relations-track {
+
+.enemies-track,
+.crew-relations-track {
     display: flex;
     gap: 30px;
     animation: scrollEnemies 30s linear infinite;
     width: max-content;
 }
-@keyframes scrollEnemies { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
-.enemy-card, .crew-relation-card {
-    flex: 0 0 300px;
+
+@keyframes scrollEnemies {
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(-50%);
+    }
+}
+
+.enemy-card,
+.crew-relation-card {
+    flex: 0 0 320px;
     background: var(--card-bg);
-    border: 1px solid var(--border);
+    border: 2px solid var(--border);
     border-radius: 20px;
-    padding: 20px;
+    padding: 25px 20px;
     text-align: center;
     transition: all var(--transition);
-    min-height: 420px;
+    min-height: 440px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
 }
-.enemy-card:hover, .crew-relation-card:hover {
+
+.enemy-card:hover,
+.crew-relation-card:hover {
     transform: scale(1.05) translateY(-10px);
-    border-color: var(--green);
-    box-shadow: 0 20px 60px var(--shadow);
+    border-color: var(--gold);
+    box-shadow: 0 20px 50px var(--shadow);
 }
-.enemy-card img, .crew-relation-card img {
-    width: 120px;
-    height: 120px;
+
+.enemy-card img,
+.crew-relation-card img {
+    width: 140px;
+    height: 140px;
     object-fit: contain;
     border-radius: 50%;
     border: 3px solid var(--border);
@@ -341,85 +778,166 @@ body {
     background: var(--bg);
     padding: 8px;
 }
-.enemy-card h4, .crew-relation-card h4 { font-family: 'Russo One', sans-serif; font-size: 20px; }
 
-/* ========================================================= */
-/* ИГРА: РАЗРЕЗАНИЕ ЯДЕР                                     */
-/* ========================================================= */
-.game-container {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 9997;
-    overflow: hidden;
-}
-.game-container.active { pointer-events: auto; }
-.game-core {
-    position: absolute;
-    top: -60px;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 30% 30%, #ff6b35, #c0392b);
-    box-shadow: 0 0 30px rgba(255, 107, 53, 0.6);
-    animation: coreFall linear infinite;
-    cursor: pointer;
-    pointer-events: auto;
-    transition: transform 0.1s;
-}
-.game-core:hover { transform: scale(1.2); }
-.game-core.sliced {
-    animation: coreSlice 0.5s ease forwards;
-}
-@keyframes coreFall {
-    0% { transform: translateY(-60px) rotate(0deg); opacity: 1; }
-    100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
-}
-@keyframes coreSlice {
-    0% { transform: scale(1); opacity: 1; }
-    50% { transform: scale(2); opacity: 0.5; }
-    100% { transform: scale(0); opacity: 0; }
-}
-.game-score {
-    position: fixed;
-    bottom: 30px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 9998;
+.enemy-card h4,
+.crew-relation-card h4 {
     font-family: 'Russo One', sans-serif;
-    font-size: 28px;
-    color: var(--gold);
-    text-shadow: 0 0 30px rgba(201, 168, 76, 0.4);
-    background: rgba(0,0,0,0.6);
-    padding: 8px 24px;
-    border-radius: 30px;
-    backdrop-filter: blur(8px);
-    border: 2px solid var(--gold);
-    display: none;
+    font-size: 20px;
 }
-.game-score.active { display: block; }
 
 /* ========================================================= */
-/* АДАПТАЦИЯ                                                 */
+/* РОДОВОЕ ДРЕВО                                             */
 /* ========================================================= */
-@media (max-width: 992px) {
-    .hero-content { grid-template-columns: 1fr; text-align: center; }
-    .hero h1 { font-size: 40px; letter-spacing: 4px; }
-    .hero-quote { border-left: none; border-top: 3px solid var(--gold); padding-top: 15px; font-size: 18px; }
-    .hero-silhouette { max-height: 280px; }
-    .counters-grid { grid-template-columns: repeat(2, 1fr); }
-    .counter-number { font-size: 36px; }
+.family-tree {
+    background: var(--card-bg);
+    padding: 30px;
+    border-radius: 20px;
+    border: 2px solid var(--border);
+    margin: 30px 0;
+    text-align: center;
 }
+
+.family-tree .tree-image {
+    max-width: 100%;
+    border-radius: 16px;
+    margin: 20px 0;
+}
+
+.family-tree ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.family-tree ul li {
+    background: var(--bg);
+    padding: 12px 24px;
+    border-radius: 12px;
+    border: 2px solid var(--border);
+    font-weight: 700;
+    font-size: 16px;
+    transition: all var(--transition);
+}
+
+.family-tree ul li:hover {
+    border-color: var(--gold);
+    transform: scale(1.05);
+}
+
+/* ========================================================= */
+/* СИММЕТРИЯ И ОБЩИЕ ОТСТУПЫ                                 */
+/* ========================================================= */
+section {
+    padding: 40px 0;
+}
+
+h2 {
+    font-family: 'Russo One', sans-serif;
+    font-size: 38px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--text-dark);
+    font-size: 17px;
+    margin-bottom: 35px;
+}
+
+.grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+@media (max-width: 992px) {
+    .grid-2,
+    .grid-3 {
+        grid-template-columns: 1fr;
+    }
+
+    .enemy-card,
+    .crew-relation-card {
+        flex: 0 0 260px;
+    }
+
+    .enemy-card img,
+    .crew-relation-card img {
+        width: 100px;
+        height: 100px;
+    }
+}
+
 @media (max-width: 576px) {
-    .hero h1 { font-size: 28px; letter-spacing: 2px; }
-    .hero-quote { font-size: 15px; padding-top: 12px; }
-    .header-inner { flex-direction: column; align-items: stretch; gap: 6px; }
-    .logo { justify-content: center; font-size: 20px; }
-    .logo-skull { height: 34px; }
-    .nav { justify-content: center; gap: 3px 8px; flex-wrap: wrap; }
-    .nav a { font-size: 10px; }
-    .lang-btn, .theme-btn, .auth-btn { font-size: 8px; padding: 1px 6px; }
-    .enemy-card, .crew-relation-card { flex: 0 0 240px; min-height: 340px; }
-    .enemy-card img, .crew-relation-card img { width: 80px; height: 80px; }
-    .modal-close { top: -30px; right: 0; width: 30px; height: 30px; }
+    .header-inner {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 4px;
+    }
+
+    .logo {
+        justify-content: center;
+        font-size: 20px;
+    }
+
+    .logo-skull {
+        height: 32px;
+    }
+
+    .nav {
+        justify-content: center;
+        gap: 3px 8px;
+    }
+
+    .nav a {
+        font-size: 10px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 12px;
+    }
+
+    .btn::before {
+        font-size: 14px;
+    }
+
+    .enemy-card,
+    .crew-relation-card {
+        flex: 0 0 200px;
+        min-height: 320px;
+        padding: 15px;
+    }
+
+    .enemy-card img,
+    .crew-relation-card img {
+        width: 80px;
+        height: 80px;
+    }
+
+    .game-wrapper .game-area {
+        height: 280px;
+    }
+
+    .game-wrapper .game-area .game-core {
+        font-size: 28px;
+    }
+
+    .family-tree ul li {
+        padding: 8px 16px;
+        font-size: 14px;
+    }
 }
