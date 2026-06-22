@@ -50,6 +50,46 @@ body {
 @import url('https://fonts.googleapis.com/css2?family=DIST+Inking&display=swap');
 
 /* ========================================================= */
+/* САКУРА (ВОЗВРАЩЕНА)                                       */
+/* ========================================================= */
+.sakura-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+    overflow: hidden;
+}
+
+.sakura-leaf {
+    position: absolute;
+    top: -10%;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle at 30% 30%, #ffb7c5, #ff6b8a);
+    border-radius: 50% 0 50% 0;
+    opacity: 0.6;
+    animation: fall linear infinite;
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-10vh) rotate(0deg) scale(0.8);
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 0.9;
+        transform: translateY(50vh) rotate(180deg) scale(1.2);
+    }
+    100% {
+        transform: translateY(110vh) rotate(360deg) scale(0.8);
+        opacity: 0;
+    }
+}
+
+/* ========================================================= */
 /* ШАПКА (УЛУЧШЕННАЯ)                                        */
 /* ========================================================= */
 .header {
@@ -73,7 +113,7 @@ body {
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
-    gap: 8px 16px;
+    gap: 8px 20px;
 }
 
 .logo {
@@ -144,164 +184,64 @@ body {
     }
 }
 
-/* Навигация */
+/* ========================================================= */
+/* КНОПКИ В ШАПКЕ (с обводкой и расстоянием)                  */
+/* ========================================================= */
 .nav {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 6px 14px;
+    gap: 10px 18px;
 }
 
-.nav a {
+.nav a,
+.lang-toggle,
+.theme-btn,
+.auth-btn {
+    padding: 8px 18px;
+    border: 2px solid var(--border);
+    border-radius: 30px;
+    transition: all var(--transition);
+    background: transparent;
     color: #b8c8b8;
-    text-decoration: none;
     font-weight: 700;
     font-size: 13px;
     text-transform: uppercase;
-    letter-spacing: 1.2px;
-    transition: all var(--transition);
-    padding: 6px 0;
-    border-bottom: 2px solid transparent;
-    position: relative;
-}
-
-.nav a::before {
-    content: '⚔️';
-    opacity: 0;
-    margin-right: 0px;
-    transition: all var(--transition);
-    font-size: 10px;
-}
-
-.nav a:hover::before {
-    opacity: 1;
-    margin-right: 6px;
-}
-
-.nav a:hover {
-    color: var(--green);
-    text-shadow: 0 0 25px var(--green-glow);
-    border-bottom-color: var(--green);
-    transform: translateY(-2px);
-}
-
-/* Выпадающее меню языков */
-.lang-dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.lang-toggle {
-    background: transparent;
-    border: 2px solid var(--border);
-    color: #b8c8b8;
-    padding: 6px 16px;
-    border-radius: 20px;
-    font-size: 13px;
-    font-weight: 700;
+    letter-spacing: 1px;
     cursor: pointer;
-    transition: all var(--transition);
+    text-decoration: none;
     font-family: 'Open Sans', sans-serif;
 }
 
-.lang-toggle:hover {
-    border-color: var(--green);
-    color: var(--green);
-    transform: scale(1.05) translateY(-2px);
-    box-shadow: 0 0 25px var(--green-glow);
-}
-
-.lang-menu {
-    display: none;
-    position: absolute;
-    top: 115%;
-    right: 0;
-    background: var(--card-bg);
-    border: 2px solid var(--border);
-    border-radius: 16px;
-    padding: 8px 0;
-    min-width: 120px;
-    box-shadow: 0 8px 40px var(--shadow);
-    backdrop-filter: blur(12px);
-    z-index: 1001;
-}
-
-.lang-menu.active {
-    display: block;
-    animation: fadeSlideDown 0.3s ease;
-}
-
-@keyframes fadeSlideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-10px) scale(0.95);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-.lang-menu button {
-    display: block;
-    width: 100%;
-    padding: 8px 20px;
-    background: transparent;
-    border: none;
-    color: var(--text);
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all var(--transition);
-    text-align: left;
-    font-family: 'Open Sans', sans-serif;
-}
-
-.lang-menu button:hover {
-    background: var(--bg);
-    color: var(--green);
-    padding-left: 26px;
-}
-
-.lang-menu button.active-lang {
-    color: var(--gold);
-    background: rgba(201, 168, 76, 0.08);
-}
-
-/* Кнопки тем и регистрации */
-.theme-btn,
-.auth-btn {
-    background: transparent;
-    border: 2px solid var(--border);
-    color: #b8c8b8;
-    padding: 6px 14px;
-    border-radius: 20px;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: all var(--transition);
-    font-family: 'Open Sans', sans-serif;
-}
-
+.nav a:hover,
+.lang-toggle:hover,
 .theme-btn:hover,
 .auth-btn:hover {
     border-color: var(--green);
     color: var(--green);
-    transform: scale(1.05) translateY(-2px);
+    transform: translateY(-2px);
     box-shadow: 0 0 25px var(--green-glow);
 }
 
+.nav a:active,
+.lang-toggle:active,
+.theme-btn:active,
+.auth-btn:active {
+    transform: scale(0.95);
+}
+
+/* Активная кнопка темы */
 .theme-btn.active {
     border-color: var(--gold);
     background: rgba(201, 168, 76, 0.12);
     color: var(--gold);
 }
 
+/* Кнопка входа */
 .auth-btn {
     border-color: var(--gold);
     color: var(--gold);
 }
-
 .auth-btn:hover {
     background: var(--gold);
     color: #1a241a;
@@ -341,14 +281,14 @@ body {
 }
 
 /* ========================================================= */
-/* АНИМАЦИИ ТЕКСТА ПРИ НАВЕДЕНИИ                             */
+/* АНИМАЦИИ ТЕКСТА ПРИ НАВЕДЕНИИ (СДВИГ ВПРАВО)              */
 /* ========================================================= */
-.hover-scale {
+.hover-shift-right {
     transition: transform 0.3s ease, color 0.3s ease;
     display: inline-block;
 }
-.hover-scale:hover {
-    transform: scale(1.05);
+.hover-shift-right:hover {
+    transform: translateX(8px);
     color: var(--gold);
 }
 
@@ -360,13 +300,6 @@ body {
     color: var(--gold);
 }
 
-.hover-color {
-    transition: color 0.4s ease;
-}
-.hover-color:hover {
-    color: var(--gold);
-}
-
 .hover-shadow {
     transition: text-shadow 0.3s ease, transform 0.3s ease;
 }
@@ -375,158 +308,11 @@ body {
     transform: translateY(-2px);
 }
 
-.hover-underline {
-    position: relative;
-    display: inline-block;
-    text-decoration: none;
-}
-.hover-underline::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 50%;
-    width: 0;
-    height: 2px;
-    background: var(--gold);
-    transition: all 0.4s ease;
-    transform: translateX(-50%);
-}
-.hover-underline:hover::after {
-    width: 100%;
-}
-
-.hover-spacing {
-    transition: letter-spacing 0.3s ease, color 0.3s ease;
-}
-.hover-spacing:hover {
-    letter-spacing: 4px;
-    color: var(--gold);
-}
-
-.hover-tilt {
-    transition: transform 0.3s ease, color 0.3s ease;
-    display: inline-block;
-}
-.hover-tilt:hover {
-    transform: rotate(-2deg) scale(1.02);
-    color: var(--gold);
-}
-
-.hover-gradient {
-    background: linear-gradient(90deg, var(--text), var(--gold), var(--green), var(--text));
-    background-size: 300% 100%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    transition: background-position 0.6s ease;
-}
-.hover-gradient:hover {
-    background-position: 100% 0%;
-}
-
-.hover-pulse {
-    transition: transform 0.2s ease, color 0.2s ease;
-}
-.hover-pulse:hover {
-    animation: pulseText 0.8s ease infinite;
-    color: var(--gold);
-}
-@keyframes pulseText {
-    0% { transform: scale(1); }
-    50% { transform: scale(1.03); }
-    100% { transform: scale(1); }
-}
-
 .hover-float {
     transition: transform 0.4s ease, color 0.3s ease;
 }
 .hover-float:hover {
     transform: translateY(-4px);
-    color: var(--gold);
-}
-
-/* Применение к конкретным элементам */
-h1, h2, h3 {
-    transition: all 0.3s ease;
-}
-h1:hover, h2:hover, h3:hover {
-    animation: pulseText 1s ease infinite;
-    color: var(--gold);
-}
-
-.hero-quote, .quote, blockquote {
-    transition: all 0.3s ease;
-}
-.hero-quote:hover, .quote:hover, blockquote:hover {
-    transform: translateX(8px);
-    border-left-color: var(--gold);
-    text-shadow: 0 0 20px var(--gold-glow);
-}
-
-.nav a {
-    transition: all 0.3s ease;
-}
-.nav a:hover {
-    letter-spacing: 2px;
-    color: var(--gold);
-    text-shadow: 0 0 20px var(--green-glow);
-}
-
-.gold, .green, .purple {
-    transition: all 0.3s ease;
-    display: inline-block;
-}
-.gold:hover {
-    text-shadow: 0 0 20px var(--gold-glow);
-    transform: scale(1.05);
-}
-.green:hover {
-    text-shadow: 0 0 20px var(--green-glow);
-    transform: scale(1.05);
-}
-.purple:hover {
-    text-shadow: 0 0 20px var(--purple-glow);
-    transform: scale(1.05);
-}
-
-p {
-    transition: all 0.3s ease;
-}
-p:hover {
-    color: var(--text-dark);
-    transform: translateX(4px);
-}
-
-li {
-    transition: all 0.3s ease;
-}
-li:hover {
-    transform: translateX(8px);
-    color: var(--gold);
-}
-
-.footer-btn {
-    transition: all 0.3s ease;
-}
-.footer-btn:hover {
-    letter-spacing: 2px;
-    transform: scale(1.05);
-    background: var(--gold);
-    color: #1a241a;
-    border-color: var(--gold);
-}
-
-.counter-number {
-    transition: all 0.3s ease;
-}
-.counter-number:hover {
-    transform: scale(1.1);
-    text-shadow: 0 0 40px var(--gold-glow);
-}
-.counter-label {
-    transition: all 0.3s ease;
-}
-.counter-label:hover {
-    letter-spacing: 4px;
     color: var(--gold);
 }
 
@@ -570,19 +356,6 @@ li:hover {
     0%, 90%, 100% { text-shadow: 0 0 8px var(--green-glow); }
     92% { text-shadow: 3px 0 var(--green), -3px 0 var(--purple); transform: skewX(1deg); }
     94% { text-shadow: -3px 0 var(--green), 3px 0 var(--purple); transform: skewX(-1deg); }
-}
-
-.anim-gradient {
-    background: linear-gradient(90deg, var(--gold), var(--green), var(--purple), var(--gold));
-    background-size: 300% 100%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradientMove 5s ease infinite;
-}
-@keyframes gradientMove {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
 }
 
 /* ========================================================= */
@@ -1045,6 +818,60 @@ body {
 }
 
 /* ========================================================= */
+/* ВЫПАДАЮЩЕЕ МЕНЮ ЯЗЫКОВ                                    */
+/* ========================================================= */
+.lang-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.lang-menu {
+    display: none;
+    position: absolute;
+    top: 115%;
+    right: 0;
+    background: var(--card-bg);
+    border: 2px solid var(--border);
+    border-radius: 16px;
+    padding: 8px 0;
+    min-width: 120px;
+    box-shadow: 0 8px 40px var(--shadow);
+    backdrop-filter: blur(12px);
+    z-index: 1001;
+}
+.lang-menu.active {
+    display: block;
+    animation: fadeSlideDown 0.3s ease;
+}
+@keyframes fadeSlideDown {
+    from { opacity: 0; transform: translateY(-10px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.lang-menu button {
+    display: block;
+    width: 100%;
+    padding: 8px 20px;
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all var(--transition);
+    text-align: left;
+    font-family: 'Open Sans', sans-serif;
+}
+.lang-menu button:hover {
+    background: var(--bg);
+    color: var(--green);
+    padding-left: 26px;
+}
+.lang-menu button.active-lang {
+    color: var(--gold);
+    background: rgba(201, 168, 76, 0.08);
+}
+
+/* ========================================================= */
 /* АДАПТАЦИЯ                                                 */
 /* ========================================================= */
 @media (max-width: 992px) {
@@ -1111,16 +938,14 @@ body {
     }
     .nav {
         justify-content: center;
-        gap: 4px 10px;
+        gap: 6px 10px;
     }
-    .nav a {
-        font-size: 10px;
-    }
+    .nav a,
     .lang-toggle,
     .theme-btn,
     .auth-btn {
         font-size: 10px;
-        padding: 4px 10px;
+        padding: 5px 12px;
     }
     .counter-number {
         font-size: 28px;
